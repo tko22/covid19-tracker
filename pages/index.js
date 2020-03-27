@@ -17,7 +17,7 @@ const Home = () => {
   const todayILHist = ilHist ? ilHist[0] : null
 
   return (
-    <div className='container'>
+    <div>
       <Head>
         <title>Covid-19 Testing</title>
         <link rel='icon' href='/favicon.ico' />
@@ -28,23 +28,27 @@ const Home = () => {
       </Head>
 
       <main>
-
-        <div className='grid'>
-          <Card state='California' today={caliToday} hist={todayHist} />
-          <Card state='Illinois' today={ilToday} hist={todayILHist} />
-          <HistTable state='California' data={caliHist} />
+        <div className='container'>
+          <h2 className='title'>Corona</h2>
+          <div className='grid'>
+            <Card state='California' today={caliToday} hist={todayHist} />
+            <Card state='Illinois' today={ilToday} hist={todayILHist} />
+            <HistTable state='California' data={caliHist} />
+          </div>
         </div>
-
       </main>
 
       <footer />
 
       <style jsx>{`
+        .title {
+          text-align: center;
+          font-size: 30px;
+          font-weight: 500;
+        }
+
         .container {
-          min-height: 100vh;
           padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
           justify-content: center;
           align-items: center;
         }
@@ -93,11 +97,6 @@ const Home = () => {
           text-decoration: underline;
         }
 
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
 
         .title,
         .description {
