@@ -1,8 +1,32 @@
 import { prettyDate, printStatVal } from '../utils'
+import { useState } from 'react'
 
-const Card = ({ state, today, hist }) => (
-  <div className='card'>
-    <h3>{state}</h3>
+const NORMALIZATION_FACTOR = 1000
+
+const Card = ({ state, today, hist, population }) => {
+  const [isNormalized, toggleNormalize] = useState(false)
+  const handleNormalizeClick = () => (
+    toggleNormalize(!isNormalized)
+  )
+
+  return (<div className='card'>
+    <div className='title-box'>
+      <h3>{state}</h3>
+      <div className='toggle-box'>
+        {
+          isNormalized
+            ? <>
+              <p>per thousand</p>
+              <img className='toggle-icon' src='/toggle-right.svg' onClick={handleNormalizeClick} />
+            </>
+            : <>
+              <p>cases</p>
+              <img className='toggle-icon' src='/toggle-left.svg' onClick={handleNormalizeClick} />
+            </>
+        }
+
+      </div>
+    </div>
     {today && hist
       ? <>
         <div className='stat-row'>
@@ -14,7 +38,7 @@ const Card = ({ state, today, hist }) => (
               {hist.positiveIncrease}
             </p>
           </div>
-          <p className='stat-val'>{today.positive}</p>
+          <p className='stat-val'>{printStatVal(today.positive, population, isNormalized, NORMALIZATION_FACTOR)}</p>
         </div>
         <div className='stat-row'>
           <p className='stat-title'>Negative: </p>
@@ -25,7 +49,7 @@ const Card = ({ state, today, hist }) => (
               {hist.negativeIncrease}
             </p>
           </div>
-          <p className='stat-val'>{today.negative}</p>
+          <p className='stat-val'>{printStatVal(today.negative, population, isNormalized, NORMALIZATION_FACTOR)}</p>
         </div>
         <div className='stat-row'>
           <p className='stat-title'>Hospitalized: </p>
@@ -36,7 +60,7 @@ const Card = ({ state, today, hist }) => (
               {hist.hospitalizedIncrease}
             </p>
           </div>
-          <p className='stat-val'>{printStatVal(today.hospitalized)}</p>
+          <p className='stat-val'>{printStatVal(printStatVal(today.hospitalized, population, isNormalized, NORMALIZATION_FACTOR))}</p>
         </div>
         <div className='stat-row'>
           <p className='stat-title'>Deaths: </p>
@@ -46,11 +70,11 @@ const Card = ({ state, today, hist }) => (
               {hist.deathIncrease}
             </p>
           </div>
-          <p className='stat-val'>{today.death}</p>
+          <p className='stat-val'>{printStatVal(today.death, population, isNormalized, NORMALIZATION_FACTOR)}</p>
         </div>
         <div className='stat-row'>
           <p className='stat-title'>Pending Tests: </p>
-          <p className='stat-val'>{today.pending}</p>
+          <p className='stat-val'>{printStatVal(today.pending, population, isNormalized, NORMALIZATION_FACTOR)}</p>
         </div>
         <div className='stat-row'>
           <p className='stat-title'>Total Tests: </p>
@@ -61,13 +85,15 @@ const Card = ({ state, today, hist }) => (
               {hist.totalTestResultsIncrease}
             </p>
           </div>
-          <p className='stat-val'>{today.totalTestResults}</p>
+          <p className='stat-val'>{printStatVal(today.totalTestResults, population, isNormalized, NORMALIZATION_FACTOR)}</p>
         </div>
 
+        <p className='last-updated-text'>Pop. {population}</p>
         <p className='last-updated-text'>Last Updated: {prettyDate(today.dateModified)}</p>
-      </>
+        </>
       : <p>No data</p>}
     <style jsx>{`
+    
       .card {
         margin: 1rem;
         flex-basis: 30%;
@@ -84,12 +110,8 @@ const Card = ({ state, today, hist }) => (
       .card:hover,
       .card:focus,
       .card:active {
-        
-      }
-
-      .card h3 {
-        margin: 0 0 1rem 0;
-        font-size: 1.5rem;
+        box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 8px;
+        transition: border 0.2s, background 0.2s, color 0.2s ease-out;
       }
 
       .card p {
@@ -151,15 +173,36 @@ const Card = ({ state, today, hist }) => (
         height: 10px;
         margin-left: auto;
       }
-      
-      .stat-incr {
+      .title-box {
+        display: flex;
+        align-items: center;
       }
 
-      .stat-decr {
+      .title-box h3 {
+        flex: 2;
+        font-size: 1.3rem;
+        margin: 0.5rem 0.1rem;
+      }
+
+      .toggle-box {
+        display: flex;
+      }
+
+      .toggle-box p {
+        font-size: 12px;
+        color: #ababab;
+        padding-right: 5px;
+        margin: 3px 0;
+      }
+
+      .toggle-icon {
+        cursor: pointer;
+        align-self: center;
       }
     `}
     </style>
-  </div>
-)
+          </div>
+  )
+}
 
 export default Card

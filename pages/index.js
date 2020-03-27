@@ -44,9 +44,9 @@ const Home = () => {
         <div className='container'>
           <h2 className='title'>Covid-19</h2>
           <div className='grid'>
-            <Card state='California' today={caliToday} hist={todayCaliHist} />
-            <Card state='Illinois' today={ilToday} hist={todayILHist} />
-            <Card state='New York' today={nyToday} hist={todayNYHist} />
+            <Card state='California' today={caliToday} hist={todayCaliHist} population={population.states.california} />
+            <Card state='Illinois' today={ilToday} hist={todayILHist} population={population.states.illinois} />
+            <Card state='New York' today={nyToday} hist={todayNYHist} population={population.states.new_york} />
             <HistTable state='California' data={caliHist} population={population.states.california} />
           </div>
         </div>

@@ -17,7 +17,6 @@ const HistTable = ({ state, data, population }) => {
   if (data && isCollapse) {
     data = data.slice(0, 5)
   }
-  console.log(population)
   return (
     <div className='table-wrapper'>
       <div className='title-box'>
@@ -28,11 +27,11 @@ const HistTable = ({ state, data, population }) => {
               ? <>
                 <p>per thousand</p>
                 <img className='toggle-icon' src='/toggle-right.svg' onClick={handleNormalizeClick} />
-              </>
+                </>
               : <>
                 <p>cases</p>
                 <img className='toggle-icon' src='/toggle-left.svg' onClick={handleNormalizeClick} />
-                </>
+              </>
           }
 
         </div>
@@ -123,7 +122,7 @@ const HistTable = ({ state, data, population }) => {
                 {isCollapse ? <img className='expand-icon' src='/collapse-down.svg' /> : <img className='expand-icon' src='/collapse-up.svg' />}
               </a>
             </div>
-            </>
+          </>
           : "No historical Data"
       }
       <style jsx>{`
