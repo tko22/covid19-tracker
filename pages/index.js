@@ -4,36 +4,50 @@ import useSWR from 'swr'
 import fetch from 'unfetch'
 import moment from 'moment'
 import { Card, HistTable } from '../components'
-import { prettyDate } from '../utils'
+import { population } from '../utils'
+
+const STATES = ['CA', 'IL', 'NY']
+const TRACKER_URL = 'https://covidtracking.com/api'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
 const Home = () => {
-  const { data: caliHist } = useSWR('https://covidtracking.com/api/states/daily?state=CA', fetcher)
-  const { data: caliToday } = useSWR('https://covidtracking.com/api/states?state=CA', fetcher)
-  const { data: ilToday } = useSWR('https://covidtracking.com/api/states?state=IL', fetcher)
-  const { data: ilHist } = useSWR('https://covidtracking.com/api/states/daily?state=IL', fetcher)
-  const todayHist = caliHist ? caliHist[0] : null
-  const todayILHist = ilHist ? ilHist[0] : null
+  const fetchData = state => {
+    const { data: hist } = useSWR(`${TRACKER_URL}/states/daily?state=${state}`, fetcher)
+    const { data: today } = useSWR(`${TRACKER_URL}/states?state=${state}`, fetcher)
+    return { today, hist, todayHist: hist ? hist[0] : {} }
+  }
+
+  const { today: caliToday, hist: caliHist, todayHist: todayCaliHist } = fetchData("CA")
+  const { today: ilToday, hist: ilHist, todayHist: todayILHist } = fetchData("IL")
+  const { today: nyToday, hist: nyHist, todayHist: todayNYHist } = fetchData("NY")
 
   return (
     <div>
       <Head>
         <title>Covid-19 Testing</title>
         <link rel='icon' href='/favicon.ico' />
-        <link rel='preload' href='https://covidtracking.com/api/states/daily?state=CA' as='fetch' crossOrigin='anonymous' />
-        <link rel='preload' href='https://covidtracking.com/api/states?state=CA' as='fetch' crossOrigin='anonymous' />
+        {
+          STATES.map(state => (
+            <>
+              <link rel='preload' href={`${TRACKER_URL}/states/daily?state=${state}`} as='fetch' crossOrigin='anonymous' />
+              <link rel='preload' href={`${TRACKER_URL}/states?state=${state}`} as='fetch' crossOrigin='anonymous' />
+            </>
+          ))
+        }
+
         <script type='text/javascript' src='date.js' />
 
       </Head>
 
       <main>
         <div className='container'>
-          <h2 className='title'>Corona</h2>
+          <h2 className='title'>Covid-19</h2>
           <div className='grid'>
-            <Card state='California' today={caliToday} hist={todayHist} />
+            <Card state='California' today={caliToday} hist={todayCaliHist} />
             <Card state='Illinois' today={ilToday} hist={todayILHist} />
-            <HistTable state='California' data={caliHist} />
+            <Card state='New York' today={nyToday} hist={todayNYHist} />
+            <HistTable state='California' data={caliHist} population={population.states.california} />
           </div>
         </div>
       </main>
@@ -90,13 +104,6 @@ const Home = () => {
           color: #0070f3;
           text-decoration: none;
         }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
 
         .title,
         .description {
