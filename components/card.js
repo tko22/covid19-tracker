@@ -9,7 +9,7 @@ const Card = ({ state, today, hist }) => (
           <p className='stat-title'>Positive: </p>
 
           <div className='stat-diff'>
-            <img className='stat-incr-icon' src='/chevrons-up.svg' />
+            <img className='stat-incr-icon' src='/chevrons-up-bad.svg' />
             <p className='stat-incr bad'>
               {hist.positiveIncrease}
             </p>
@@ -20,8 +20,8 @@ const Card = ({ state, today, hist }) => (
           <p className='stat-title'>Negative: </p>
 
           <div className='stat-diff'>
-            <img className='stat-incr-icon' src='/chevrons-up.svg' />
-            <p className='stat-incr bad'>
+            <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
+            <p className='stat-incr good'>
               {hist.negativeIncrease}
             </p>
           </div>
@@ -31,7 +31,7 @@ const Card = ({ state, today, hist }) => (
           <p className='stat-title'>Hospitalized: </p>
 
           <div className='stat-diff'>
-            <img className='stat-incr-icon' src='/chevrons-up.svg' />
+            <img className='stat-incr-icon' src='/chevrons-up-bad.svg' />
             <p className='stat-incr bad'>
               {hist.hospitalizedIncrease}
             </p>
@@ -41,7 +41,7 @@ const Card = ({ state, today, hist }) => (
         <div className='stat-row'>
           <p className='stat-title'>Deaths: </p>
           <div className='stat-diff'>
-            <img className='stat-incr-icon' src='/chevrons-up.svg' />
+            <img className='stat-incr-icon' src='/chevrons-up-bad.svg' />
             <p className='stat-incr bad'>
               {hist.deathIncrease}
             </p>
@@ -65,13 +65,13 @@ const Card = ({ state, today, hist }) => (
         </div>
 
         <p className='last-updated-text'>Last Updated: {prettyDate(today.dateModified)}</p>
-        </>
+      </>
       : <p>No data</p>}
     <style jsx>{`
       .card {
         margin: 1rem;
         flex-basis: 30%;
-
+        
         padding: 1.5rem;
         color: inherit;
         min-width: 300px;
@@ -112,6 +112,8 @@ const Card = ({ state, today, hist }) => (
       
       .stat-row {
         display: flex;
+        display:-webkit-flex
+        -webkit-box-pack: justify;
         justify-content: left;
         margin: 3px 0;
       }
@@ -134,6 +136,8 @@ const Card = ({ state, today, hist }) => (
         padding-right: 7px;
         
         display: flex;
+        display:-webkit-flex
+        -webkit-box-pack: justify;
         justify-content: flex-end;
       }
 
@@ -144,6 +148,7 @@ const Card = ({ state, today, hist }) => (
 
       .stat-incr-icon {
         width: 10px;
+        height: 10px;
         margin-left: auto;
       }
       

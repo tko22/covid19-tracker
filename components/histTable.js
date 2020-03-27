@@ -1,4 +1,5 @@
 import { prettyDate, printStatVal } from '../utils'
+import { StatRow } from '../components'
 import { useState } from 'react'
 
 const HistTable = ({ state, data }) => {
@@ -36,7 +37,7 @@ const HistTable = ({ state, data }) => {
                         <div className='stat-row'>
                           <p className='stat-val'>{day.positive}</p>
                           <div className='stat-diff'>
-                            <img className='stat-incr-icon' src='/chevrons-up.svg' />
+                            <img className='stat-incr-icon' src='/chevrons-up-bad.svg' />
                             <p className='stat-incr bad'>
                               {day.positiveIncrease}
                             </p>
@@ -59,7 +60,7 @@ const HistTable = ({ state, data }) => {
                         <div className='stat-row'>
                           <p className='stat-val'>{printStatVal(day.hospitalized)}</p>
                           <div className='stat-diff'>
-                            <img className='stat-incr-icon' src='/chevrons-up.svg' />
+                            <img className='stat-incr-icon' src='/chevrons-up-bad.svg' />
                             <p className='stat-incr bad'>
                               {day.hospitalizedIncrease}
                             </p>
@@ -70,7 +71,7 @@ const HistTable = ({ state, data }) => {
                         <div className='stat-row'>
                           <p className='stat-val'>{day.death}</p>
                           <div className='stat-diff'>
-                            <img className='stat-incr-icon' src='/chevrons-up.svg' />
+                            <img className='stat-incr-icon' src='/chevrons-up-bad.svg' />
                             <p className='stat-incr bad'>
                               {day.deathIncrease}
                             </p>
@@ -94,8 +95,8 @@ const HistTable = ({ state, data }) => {
               </tbody>
             </table>
             <div className='expand-box' onClick={handleCollapseClick}>
-              <a className='expand-icon'>
-                {isCollapse ? <img src='/collapse-down.svg' width='18' /> : <img src='/collapse-up.svg' width='18' />}
+              <a>
+                {isCollapse ? <img className='expand-icon' src='/collapse-down.svg' /> : <img className='expand-icon' src='/collapse-up.svg' />}
               </a>
             </div>
             </>
@@ -151,6 +152,8 @@ const HistTable = ({ state, data }) => {
 
       .expand-icon {
         align-self: center;
+        width: 18px;
+        height: 18px;
       }
 
       .stat-row {
@@ -163,23 +166,34 @@ const HistTable = ({ state, data }) => {
         margin-right: auto;
         text-align: left;
         align-self: center;
+        flex-basis: 40px;
+        min-width: 40px;
       }
 
       .stat-diff {
         align-self: center;
+        text-align: left;
         flex: 10%;
         padding-left: 5px;
         
         display: flex;
-        justify-content: right;
+        display:-webkit-flex
+        -webkit-box-pack: justify;
+        align-items: left;
       }
 
       .stat-diff p {
         font-size: 9px !important;
+        margin: 0;
+        flex: 1;
+        text-align: left;
       }
 
       .stat-incr-icon {
         width: 10px;
+        height: 10px;
+        align-self: flex-start;
+        margin-right: auto;
       }
 
     `}
