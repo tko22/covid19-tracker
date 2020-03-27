@@ -1,4 +1,5 @@
 import { prettyDate, printStatVal } from '../utils'
+import ToggleNormalize from './toggleNormalize'
 import { useState } from 'react'
 
 const NORMALIZATION_FACTOR = 1000
@@ -12,20 +13,7 @@ const Card = ({ state, today, hist, population }) => {
   return (<div className='card'>
     <div className='title-box'>
       <h3>{state}</h3>
-      <div className='toggle-box'>
-        {
-          isNormalized
-            ? <>
-              <p>per thousand</p>
-              <img className='toggle-icon' src='/toggle-right.svg' onClick={handleNormalizeClick} />
-            </>
-            : <>
-              <p>cases</p>
-              <img className='toggle-icon' src='/toggle-left.svg' onClick={handleNormalizeClick} />
-            </>
-        }
-
-      </div>
+      <ToggleNormalize isNormalized={isNormalized} toggle={handleNormalizeClick} />
     </div>
     {today && hist
       ? <>
@@ -90,7 +78,7 @@ const Card = ({ state, today, hist, population }) => {
 
         <p className='last-updated-text'>Pop. {population}</p>
         <p className='last-updated-text'>Last Updated: {prettyDate(today.dateModified)}</p>
-        </>
+      </>
       : <p>No data</p>}
     <style jsx>{`
     
@@ -184,24 +172,9 @@ const Card = ({ state, today, hist, population }) => {
         margin: 0.5rem 0.1rem;
       }
 
-      .toggle-box {
-        display: flex;
-      }
-
-      .toggle-box p {
-        font-size: 12px;
-        color: #ababab;
-        padding-right: 5px;
-        margin: 3px 0;
-      }
-
-      .toggle-icon {
-        cursor: pointer;
-        align-self: center;
-      }
     `}
     </style>
-          </div>
+  </div>
   )
 }
 

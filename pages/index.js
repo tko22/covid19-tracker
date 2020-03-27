@@ -3,7 +3,7 @@ import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
 import moment from 'moment'
-import { Card, HistTable } from '../components'
+import { Card, HistTable, ToggleNormalize } from '../components'
 import { population } from '../utils'
 
 const STATES = ['CA', 'IL', 'NY']
@@ -52,7 +52,9 @@ const Home = () => {
         </div>
       </main>
 
-      <footer />
+      <footer>
+        <p>Data source from covidtracking.com</p>
+      </footer>
 
       <style jsx>{`
         .title {
@@ -93,6 +95,10 @@ const Home = () => {
           display: flex;
           justify-content: center;
           align-items: center;
+        }
+
+        footer p {
+          font-size: 12px;
         }
 
         a {

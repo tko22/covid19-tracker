@@ -1,6 +1,7 @@
 import { prettyDate, printStatVal } from '../utils'
 import { StatRow } from '../components'
 import { useState } from 'react'
+import ToggleNormalize from './toggleNormalize'
 const NORMALIZATION_FACTOR = 1000
 
 const HistTable = ({ state, data, population }) => {
@@ -21,20 +22,7 @@ const HistTable = ({ state, data, population }) => {
     <div className='table-wrapper'>
       <div className='title-box'>
         <h3>{state} history</h3>
-        <div className='toggle-box'>
-          {
-            isNormalized
-              ? <>
-                <p>per thousand</p>
-                <img className='toggle-icon' src='/toggle-right.svg' onClick={handleNormalizeClick} />
-                </>
-              : <>
-                <p>cases</p>
-                <img className='toggle-icon' src='/toggle-left.svg' onClick={handleNormalizeClick} />
-              </>
-          }
-
-        </div>
+        <ToggleNormalize isNormalized={isNormalized} toggle={handleNormalizeClick} />
       </div>
       {
         data
@@ -135,23 +123,10 @@ const HistTable = ({ state, data, population }) => {
         flex: 2;
       }
 
-      .toggle-box {
-        display: flex;
-      }
-
-      .toggle-box p {
-        font-size: 12px;
-        color: #ababab;
-        padding-right: 5px;
-      }
-
-      .toggle-icon {
-        cursor: pointer;
-      }
       
       .table-wrapper {
         margin: 1rem;
-        padding: 1.5rem;
+        padding: 1.5rem 1.5rem 0.5rem 1.5rem;
         text-decoration: none;
         border: 1px solid #eaeaea;
         border-radius: 10px;
@@ -160,6 +135,10 @@ const HistTable = ({ state, data, population }) => {
         font-color: #545454;
       }
 
+      .table-wrapper:hover {
+        box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 8px;
+        transition: border 0.2s, background 0.2s, color 0.2s ease-out;
+      }
       h3 {
         margin: 5px;
       }
