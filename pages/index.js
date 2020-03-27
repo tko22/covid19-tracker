@@ -3,20 +3,18 @@ import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
 import moment from 'moment'
+import { Card, HistTable } from '../components'
+import { prettyDate } from '../utils'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
-const printStatVal = value => (value || "n/a")
-
-const prettyDate = ms => {
-  console.log(ms)
-  const d = moment(ms)
-  return d.format("MMM DD ddd")
-}
-
 const Home = () => {
   const { data: caliHist } = useSWR('https://covidtracking.com/api/states/daily?state=CA', fetcher)
-  const caliToday = caliHist ? caliHist[0] : null
+  const { data: caliToday } = useSWR('https://covidtracking.com/api/states?state=CA', fetcher)
+  const { data: ilToday } = useSWR('https://covidtracking.com/api/states?state=IL', fetcher)
+  const { data: ilHist } = useSWR('https://covidtracking.com/api/states/daily?state=IL', fetcher)
+  const todayHist = caliHist ? caliHist[0] : null
+  const todayILHist = ilHist ? ilHist[0] : null
 
   return (
     <div className='container'>
@@ -32,68 +30,9 @@ const Home = () => {
       <main>
 
         <div className='grid'>
-          <div className='card'>
-            <h3>California</h3>
-            {caliToday
-              ? <>
-                <p>
-                  <span className='stat-title'>Positive: </span>
-                  <span className='stat-val'>{caliToday.positive}</span>
-                  <span className='stat-increase'>{caliToday.positiveIncrease}</span>
-                </p>
-                <p>
-                  <span className='stat-title'>Negative: </span>
-                  <span className='stat-val'>{caliToday.negative}</span>
-                </p>
-                <p>
-                  <span className='stat-title'>Hospitalized: </span>
-                  <span className='stat-val'>{printStatVal(caliToday.hospitalized)}</span>
-                </p>
-                <p>
-                  <span className='stat-title'>Deaths: </span>
-                  <span className='stat-val'>{caliToday.death}</span>
-                </p>
-                <p>
-                  <span className='stat-title'>Pending Tests: </span>
-                  <span className='stat-val'>{caliToday.pending}</span>
-                </p>
-                <p>
-                  <span className='stat-title'>Total Tests: </span>
-                  <span className='stat-val'>{caliToday.totalTestResults}</span>
-                </p>
-
-                <p className='last-updated-text'>Last Updated: {prettyDate(caliHist.dateModified)}</p>
-                </>
-              : <p>No data</p>}
-          </div>
-          {
-            caliHist
-              ? <table className='state-history-table'>
-                <tr>
-                  <th>Date</th>
-                  <th>Positive</th>
-                  <th>Negative</th>
-                  <th>Pending</th>
-                  <th>Hospitalized</th>
-                  <th>Deaths</th>
-                  <th>Total Test Results</th>
-                </tr>
-                {
-                  caliHist.map(day => (
-                    <tr key={day.date}>
-                      <td>{prettyDate(day.dateChecked)}</td>
-                      <td>{day.positive}</td>
-                      <td>{day.negative}</td>
-                      <td>{day.pending}</td>
-                      <td>{day.hospitalized}</td>
-                      <td>{day.death}</td>
-                      <td>{day.totalTestResults}</td>
-                    </tr>
-                  ))
-                }
-                </table>
-              : "No historical Data"
-          }
+          <Card state='California' today={caliToday} hist={todayHist} />
+          <Card state='Illinois' today={ilToday} hist={todayILHist} />
+          <HistTable state='California' data={caliHist} />
         </div>
 
       </main>
@@ -189,74 +128,13 @@ const Home = () => {
           margin-top: 3rem;
         }
 
-        .card {
-          margin: 1rem;
-          flex-basis: 30%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          min-width: 300px;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 0.8rem;
-          line-height: 1.5;
-        }
-        
-        .card p .stat-val {
-          color: #545454;
-          float: right;
-        }
-
-        .card .last-updated-text { 
-          font-size: 10px;
-          padding-top: 5px;
-          color: #858585;
-        }
-
-        .state-history-table {
-          margin: 1rem;
-          padding: 1.5rem;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-        
-        table {
-          font-size: 12px;
-        }
-        
-        .state-history-table th {
-          padding: 0.6em;
-        }
-
-        .state-history-table td {
-          padding: 0.6rem;
-        }
-
         @media (max-width: 600px) {
           .grid {
             width: 100%;
             flex-direction: column;
           }
         }
+
       `}
       </style>
 
@@ -271,6 +149,14 @@ const Home = () => {
 
         * {
           box-sizing: border-box;
+        }
+
+        .bad {
+          color: #e75353;
+        }
+        
+        .good {
+          color: #5084e3;
         }
       `}
       </style>

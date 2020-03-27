@@ -15,6 +15,7 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "quotes": "off",
     "dot-notation": "off",
-    "react/jsx-indent": "warn"
+    "react/jsx-indent": "warn",
+    "react/prop-types": "off"
   }
 }
