@@ -1,0 +1,11 @@
+{
+    "version": 2,
+    "name": "covid-testing-tracker",
+    "builds": [
+        {
+            "src": "package.json",
+            "use": "@now/next"
+        }
+    ],
+    "alias": "covid.timothyko.org"
+}
