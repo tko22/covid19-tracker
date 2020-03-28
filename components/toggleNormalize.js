@@ -4,7 +4,7 @@ const ToggleNormalize = ({ isNormalized, toggle }) => (
     {
       isNormalized
         ? <>
-          <p>per thousand</p>
+          <p>per 100,000</p>
           <img className='toggle-icon' src='/toggle-right.svg' onClick={toggle} />
           </>
         : <>

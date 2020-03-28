@@ -2,7 +2,7 @@ import { prettyDate, printStatVal } from '../utils'
 import { StatRow } from '../components'
 import { useState } from 'react'
 import ToggleNormalize from './toggleNormalize'
-const NORMALIZATION_FACTOR = 1000
+const NORMALIZATION_FACTOR = 1000000
 
 const HistTable = ({ state, data, population }) => {
   const [isCollapse, toggle] = useState(true)
@@ -110,7 +110,7 @@ const HistTable = ({ state, data, population }) => {
                 {isCollapse ? <img className='expand-icon' src='/collapse-down.svg' /> : <img className='expand-icon' src='/collapse-up.svg' />}
               </a>
             </div>
-          </>
+            </>
           : "No historical Data"
       }
       <style jsx>{`
