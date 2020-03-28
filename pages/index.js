@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import { useState } from 'react'
 import rd3 from 'react-d3-library'
 import useSWR from 'swr'
@@ -6,16 +7,14 @@ import fetch from 'unfetch'
 import { Card, HistTable, ToggleNormalize, StatCard } from '../components'
 import { population, stateTranslations } from '../utils'
 import Select from 'react-select'
-
-const STATES = ['CA', 'IL', 'NY']
-const TRACKER_URL = 'https://covidtracking.com/api'
+import { STATES, TRACKER_URL } from '../utils/constants'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
 const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))
 
 const Home = () => {
-  const [val, updateState] = useState("WA")
+  const [val, updateState] = useState("Washington")
 
   const changeVal = (e) => {
     updateState(e.label)
@@ -34,7 +33,6 @@ const Home = () => {
   const { today: ilToday, hist: ilHist, todayHist: todayILHist } = fetchData("IL")
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist } = fetchData("NY")
 
-  const { today, hist, todayHist } = val !== "" ? fetchData({ val }) : { today: null, hist: null, todayHist: null }
   return (
     <div>
       <Head>
@@ -48,13 +46,15 @@ const Home = () => {
             </>
           ))
         }
-
         <script type='text/javascript' src='date.js' />
 
       </Head>
 
       <main>
         <h2 className='title'>Covid-19</h2>
+        <div className='row'>
+          <Link href='/search'><a className='page-link'>Search</a></Link>
+        </div>
         <div className='row'>
           <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />
         </div>
@@ -67,12 +67,6 @@ const Home = () => {
           </div>
         </div>
         <hr />
-        {/* <div className='row'>
-          <div className='select-state-box'>
-            <Select className='select-state' options={options} isSearchable placeholder='Select State' value={stateTranslations[val]} onChange={changeVal} />
-            {today && hist && <Card state={stateTranslations[val]} today={today} hist={hist} />}
-          </div>
-        </div> */}
       </main>
 
       <footer>
@@ -80,47 +74,20 @@ const Home = () => {
       </footer>
 
       <style jsx>{`
-        .row {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-        }
-
-        .select-state-box { 
-          flex: 30%;
-          min-width: 250px;
-          margin: 1rem;
-        }
-
-        .select-state {
-          font-size: 12px;
-        }
 
         .title {
           text-align: center;
           font-size: 30px;
           font-weight: 500;
         }
+        .page-link {
+          color: #F497B8;
+          font-size: 12px;
+        }
         .sidebar {
           flex-basis: 1;
           padding: 0 0.5rem;
           margin-top: 1rem;
-        }
-
-        .container {
-          padding: 0 0.5rem;
-          justify-content: center;
-          align-items: center;
-          flex-basis: 2;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
         }
 
         footer {
@@ -146,11 +113,6 @@ const Home = () => {
           font-size: 12px;
         }
 
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
         .title a {
           color: #0070f3;
           text-decoration: none;
@@ -173,16 +135,6 @@ const Home = () => {
           font-size: 1.1rem;
           font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
             DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 1000px;
-          margin-top: 1rem;
         }
 
         @media (max-width: 600px) {
@@ -214,6 +166,31 @@ const Home = () => {
         
         .good {
           color: #5084e3;
+        }
+
+        .container {
+          padding: 0 0.5rem;
+          justify-content: center;
+          align-items: center;
+          flex-basis: 2;
+        }
+
+        main {
+          padding: 5rem 0;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        .grid {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+
+          max-width: 1000px;
+          margin-top: 1rem;
         }
       `}
       </style>
