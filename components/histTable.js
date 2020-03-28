@@ -164,6 +164,8 @@ const HistTable = ({ state, data, population }) => {
 
       .state-history-table td {
         padding: 0.6rem;
+        max-width:100%;
+        white-space:nowrap;
       }
 
       .expand-box {

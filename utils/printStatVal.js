@@ -1,8 +1,10 @@
+import formatNum from './formatNum'
+
 const printStatVal = (value, population, normalize, factor) => {
   if (normalize && population && value) {
-    return (value / (population / factor)).toFixed(3)
+    return formatNum((value / (population / factor)).toFixed(3))
   }
-  return value || "n/a"
+  return value ? formatNum(value) : "n/a"
 }
 
 export default printStatVal

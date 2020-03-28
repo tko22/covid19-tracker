@@ -2,9 +2,8 @@ import Head from 'next/head'
 import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
-import moment from 'moment'
-import { Card, HistTable, ToggleNormalize } from '../components'
-import { population } from '../utils'
+import { Card, HistTable, ToggleNormalize, StatCard } from '../components'
+import { population, stateTranslations } from '../utils'
 
 const STATES = ['CA', 'IL', 'NY']
 const TRACKER_URL = 'https://covidtracking.com/api'
@@ -24,7 +23,6 @@ const Home = () => {
   const { today: caliToday, hist: caliHist, todayHist: todayCaliHist } = fetchData("CA")
   const { today: ilToday, hist: ilHist, todayHist: todayILHist } = fetchData("IL")
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist } = fetchData("NY")
-
   return (
     <div>
       <Head>
@@ -43,13 +41,10 @@ const Home = () => {
 
       </Head>
 
-      <h2 className='title'>Covid-19</h2>
       <main>
-        <div className='sidebar'>
-          <Card state='United States' today={usToday ? usToday[0] : {}} hist={usTodayHist} population={population.united_states} />
-        </div>
+        <h2 className='title'>Covid-19</h2>
+        <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />
         <div className='container'>
-
           <div className='grid'>
             <Card state='California' today={caliToday} hist={todayCaliHist} population={population.states.california} />
             <Card state='Illinois' today={ilToday} hist={todayILHist} population={population.states.illinois} />
@@ -86,9 +81,9 @@ const Home = () => {
           padding: 5rem 0;
           flex: 1;
           display: flex;
-          flex-direction: row;
-          justify-content: space-evenly;
-          align-items: flex-start;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
         }
 
         footer {

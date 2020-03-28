@@ -1,4 +1,4 @@
-import { prettyDate, printStatVal } from '../utils'
+import { prettyDate, printStatVal, formatNum } from '../utils'
 import ToggleNormalize from './toggleNormalize'
 import { useState } from 'react'
 
@@ -75,7 +75,7 @@ const Card = ({ state, today, hist, population }) => {
           <p className='stat-val'>{printStatVal(today.totalTestResults, population, isNormalized, NORMALIZATION_FACTOR)}</p>
         </div>
 
-        <p className='last-updated-text'>Pop. {population}</p>
+        <p className='last-updated-text'>Pop. {formatNum(population)}</p>
         <p className='last-updated-text'>Last Updated: {prettyDate(today.dateModified)}</p>
         </>
       : <p>No data</p>}
