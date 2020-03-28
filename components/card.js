@@ -2,7 +2,7 @@ import { prettyDate, printStatVal, formatNum } from '../utils'
 import ToggleNormalize from './toggleNormalize'
 import { useState } from 'react'
 
-const NORMALIZATION_FACTOR = 1000000
+const NORMALIZATION_FACTOR = 100000
 
 const Card = ({ state, today, hist, population }) => {
   const [isNormalized, toggleNormalize] = useState(false)
@@ -77,7 +77,7 @@ const Card = ({ state, today, hist, population }) => {
 
         <p className='last-updated-text'>Pop. {formatNum(population)}</p>
         <p className='last-updated-text'>Last Updated: {prettyDate(today.dateModified)}</p>
-      </>
+        </>
       : <p>No data</p>}
     <style jsx>{`
     
@@ -167,7 +167,7 @@ const Card = ({ state, today, hist, population }) => {
 
     `}
     </style>
-  </div>
+          </div>
   )
 }
 
