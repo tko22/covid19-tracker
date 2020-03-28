@@ -48,9 +48,9 @@ const HistTable = ({ state, data, population }) => {
                         <div className='stat-row'>
                           <p className='stat-val'>{printStatVal(day.positive, population, isNormalized, NORMALIZATION_FACTOR)}</p>
                           <div className='stat-diff'>
-                            <img className='stat-incr-icon' src='/chevrons-up-bad.svg' />
+                            {/* <img className='stat-incr-icon' src='/chevrons-up-bad.svg' /> */}
                             <p className='stat-incr bad'>
-                              {day.positiveIncrease}
+                              +{day.positiveIncrease}
                             </p>
                           </div>
                         </div>
@@ -59,9 +59,9 @@ const HistTable = ({ state, data, population }) => {
                         <div className='stat-row'>
                           <p className='stat-val'>{printStatVal(day.negative, population, isNormalized, NORMALIZATION_FACTOR)}</p>
                           <div className='stat-diff'>
-                            <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
+                            {/* <img className='stat-incr-icon' src='/chevrons-up-good.svg' /> */}
                             <p className='stat-incr good'>
-                              {day.negativeIncrease}
+                              +{day.negativeIncrease}
                             </p>
                           </div>
                         </div>
@@ -71,9 +71,9 @@ const HistTable = ({ state, data, population }) => {
                         <div className='stat-row'>
                           <p className='stat-val'>{printStatVal(day.hospitalized)}</p>
                           <div className='stat-diff'>
-                            <img className='stat-incr-icon' src='/chevrons-up-bad.svg' />
+                            {/* <img className='stat-incr-icon' src='/chevrons-up-bad.svg' /> */}
                             <p className='stat-incr bad'>
-                              {day.hospitalizedIncrease}
+                              +{day.hospitalizedIncrease}
                             </p>
                           </div>
                         </div>
@@ -82,9 +82,9 @@ const HistTable = ({ state, data, population }) => {
                         <div className='stat-row'>
                           <p className='stat-val'>{printStatVal(day.death, population, isNormalized, NORMALIZATION_FACTOR)}</p>
                           <div className='stat-diff'>
-                            <img className='stat-incr-icon' src='/chevrons-up-bad.svg' />
+                            {/* <img className='stat-incr-icon' src='/chevrons-up-bad.svg' /> */}
                             <p className='stat-incr bad'>
-                              {day.deathIncrease}
+                              +{day.deathIncrease}
                             </p>
                           </div>
                         </div>
@@ -93,9 +93,9 @@ const HistTable = ({ state, data, population }) => {
                         <div className='stat-row'>
                           <p className='stat-val'>{printStatVal(day.totalTestResults, population, isNormalized, NORMALIZATION_FACTOR)}</p>
                           <div className='stat-diff'>
-                            <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
+                            {/* <img className='stat-incr-icon' src='/chevrons-up-good.svg' /> */}
                             <p className='stat-incr good'>
-                              {day.totalTestResults}
+                              +{day.totalTestResults}
                             </p>
                           </div>
                         </div>
@@ -122,7 +122,6 @@ const HistTable = ({ state, data, population }) => {
       .title-box h3 {
         flex: 2;
       }
-
       
       .table-wrapper {
         margin: 1rem;
@@ -148,6 +147,7 @@ const HistTable = ({ state, data, population }) => {
       .state-history-table {
         font-size: 13px;
         border-color: grey;
+        table-layout:fixed;
       }
       
       .state-history-table thead {
@@ -195,14 +195,13 @@ const HistTable = ({ state, data, population }) => {
         text-align: left;
         align-self: center;
         flex-basis: 40px;
-        min-width: 40px;
       }
 
       .stat-diff {
         align-self: center;
         text-align: left;
         flex: 10%;
-        padding-right: 7px;
+        padding-left: 3px;
         
         display: flex;
         display:-webkit-flex
@@ -214,7 +213,7 @@ const HistTable = ({ state, data, population }) => {
         font-size: 9px !important;
         margin: 0;
         flex: 1;
-        text-align: left;
+        text-align: right;
       }
 
       .stat-incr-icon {
