@@ -1,16 +1,26 @@
 import Head from 'next/head'
+import { useState } from 'react'
 import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
 import { Card, HistTable, ToggleNormalize, StatCard } from '../components'
 import { population, stateTranslations } from '../utils'
+import Select from 'react-select'
 
 const STATES = ['CA', 'IL', 'NY']
 const TRACKER_URL = 'https://covidtracking.com/api'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
+const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))
+
 const Home = () => {
+  const [val, updateState] = useState("WA")
+
+  const changeVal = (e) => {
+    updateState(e.label)
+  }
+
   const fetchData = state => {
     const { data: hist } = useSWR(`${TRACKER_URL}/states/daily?state=${state}`, fetcher)
     const { data: today } = useSWR(`${TRACKER_URL}/states?state=${state}`, fetcher)
@@ -23,6 +33,8 @@ const Home = () => {
   const { today: caliToday, hist: caliHist, todayHist: todayCaliHist } = fetchData("CA")
   const { today: ilToday, hist: ilHist, todayHist: todayILHist } = fetchData("IL")
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist } = fetchData("NY")
+
+  const { today, hist, todayHist } = val !== "" ? fetchData({ val }) : { today: null, hist: null, todayHist: null }
   return (
     <div>
       <Head>
@@ -43,7 +55,9 @@ const Home = () => {
 
       <main>
         <h2 className='title'>Covid-19</h2>
-        <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />
+        <div className='row'>
+          <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />
+        </div>
         <div className='container'>
           <div className='grid'>
             <Card state='California' today={caliToday} hist={todayCaliHist} population={population.states.california} />
@@ -52,6 +66,13 @@ const Home = () => {
             <HistTable state='California' data={caliHist} population={population.states.california} />
           </div>
         </div>
+        <hr />
+        {/* <div className='row'>
+          <div className='select-state-box'>
+            <Select className='select-state' options={options} isSearchable placeholder='Select State' value={stateTranslations[val]} onChange={changeVal} />
+            {today && hist && <Card state={stateTranslations[val]} today={today} hist={hist} />}
+          </div>
+        </div> */}
       </main>
 
       <footer>
@@ -59,6 +80,22 @@ const Home = () => {
       </footer>
 
       <style jsx>{`
+        .row {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+        }
+
+        .select-state-box { 
+          flex: 30%;
+          min-width: 250px;
+          margin: 1rem;
+        }
+
+        .select-state {
+          font-size: 12px;
+        }
+
         .title {
           text-align: center;
           font-size: 30px;
