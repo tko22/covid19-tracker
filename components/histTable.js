@@ -133,12 +133,14 @@ const HistTable = ({ state, data, population }) => {
         transition: color 0.15s ease, border-color 0.15s ease;
         text-align: left;
         font-color: #545454;
+        flex-basis: 50%;
       }
 
       .table-wrapper:hover {
         box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 8px;
         transition: border 0.2s, background 0.2s, color 0.2s ease-out;
       }
+
       h3 {
         margin: 5px;
       }

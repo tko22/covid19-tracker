@@ -17,6 +17,9 @@ const Home = () => {
     const { data: today } = useSWR(`${TRACKER_URL}/states?state=${state}`, fetcher)
     return { today, hist, todayHist: hist ? hist[0] : {} }
   }
+  const { data: usToday } = useSWR(`https://covidtracking.com/api/us`, fetcher)
+  const { data: usHist } = useSWR(`https://covidtracking.com/api/us/daily`, fetcher)
+  const usTodayHist = usHist ? usHist[0] : {}
 
   const { today: caliToday, hist: caliHist, todayHist: todayCaliHist } = fetchData("CA")
   const { today: ilToday, hist: ilHist, todayHist: todayILHist } = fetchData("IL")
@@ -40,9 +43,13 @@ const Home = () => {
 
       </Head>
 
+      <h2 className='title'>Covid-19</h2>
       <main>
+        <div className='sidebar'>
+          <Card state='United States' today={usToday ? usToday[0] : {}} hist={usTodayHist} population={population.united_states} />
+        </div>
         <div className='container'>
-          <h2 className='title'>Covid-19</h2>
+
           <div className='grid'>
             <Card state='California' today={caliToday} hist={todayCaliHist} population={population.states.california} />
             <Card state='Illinois' today={ilToday} hist={todayILHist} population={population.states.illinois} />
@@ -62,20 +69,26 @@ const Home = () => {
           font-size: 30px;
           font-weight: 500;
         }
+        .sidebar {
+          flex-basis: 1;
+          padding: 0 0.5rem;
+          margin-top: 1rem;
+        }
 
         .container {
           padding: 0 0.5rem;
           justify-content: center;
           align-items: center;
+          flex-basis: 2;
         }
 
         main {
           padding: 5rem 0;
           flex: 1;
           display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
+          flex-direction: row;
+          justify-content: space-evenly;
+          align-items: flex-start;
         }
 
         footer {
@@ -137,7 +150,7 @@ const Home = () => {
           flex-wrap: wrap;
 
           max-width: 1000px;
-          margin-top: 3rem;
+          margin-top: 1rem;
         }
 
         @media (max-width: 600px) {

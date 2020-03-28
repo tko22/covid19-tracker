@@ -15,11 +15,10 @@ const Card = ({ state, today, hist, population }) => {
       <h3>{state}</h3>
       <ToggleNormalize isNormalized={isNormalized} toggle={handleNormalizeClick} />
     </div>
-    {today && hist
+    {today
       ? <>
         <div className='stat-row'>
           <p className='stat-title'>Positive: </p>
-
           <div className='stat-diff'>
             <img className='stat-incr-icon' src='/chevrons-up-bad.svg' />
             <p className='stat-incr bad'>
@@ -78,7 +77,7 @@ const Card = ({ state, today, hist, population }) => {
 
         <p className='last-updated-text'>Pop. {population}</p>
         <p className='last-updated-text'>Last Updated: {prettyDate(today.dateModified)}</p>
-      </>
+        </>
       : <p>No data</p>}
     <style jsx>{`
     
@@ -114,12 +113,6 @@ const Card = ({ state, today, hist, population }) => {
         color: #858585;
       }
 
-      .card .last-updated-text { 
-        font-size: 10px;
-        padding-top: 5px;
-        color: #858585;
-      }
-      
       .stat-row {
         display: flex;
         display:-webkit-flex
@@ -174,7 +167,7 @@ const Card = ({ state, today, hist, population }) => {
 
     `}
     </style>
-  </div>
+          </div>
   )
 }
 

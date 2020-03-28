@@ -6,11 +6,11 @@ const ToggleNormalize = ({ isNormalized, toggle }) => (
         ? <>
           <p>per thousand</p>
           <img className='toggle-icon' src='/toggle-right.svg' onClick={toggle} />
-        </>
+          </>
         : <>
           <p>cases</p>
           <img className='toggle-icon' src='/toggle-left.svg' onClick={toggle} />
-        </>
+          </>
     }
     <style jsx>{`
       .toggle-box {
@@ -24,7 +24,7 @@ const ToggleNormalize = ({ isNormalized, toggle }) => (
         font-size: 12px;
         color: #ababab;
         padding-right: 5px;
-        margin: 3px 0;
+        margin: 4px 0;
       }
 
       .toggle-icon {
