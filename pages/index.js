@@ -34,7 +34,7 @@ const Home = () => {
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist } = fetchData("NY")
 
   return (
-    <div>
+    <div style={{ maxWidth: "100%" }}>
       <Head>
         <title>Covid-19 Testing</title>
         <link rel='icon' href='/favicon.ico' />
@@ -58,7 +58,7 @@ const Home = () => {
         <div className='row'>
           <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />
         </div>
-        <div className='container'>
+        <div className='row'>
           <div className='grid'>
             <Card state='California' today={caliToday} hist={todayCaliHist} population={population.states.california} />
             <Card state='Illinois' today={ilToday} hist={todayILHist} population={population.states.illinois} />
@@ -99,16 +99,6 @@ const Home = () => {
           align-items: center;
         }
 
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
         footer p {
           font-size: 12px;
         }
@@ -137,63 +127,10 @@ const Home = () => {
             DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
         }
 
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
 
       `}
       </style>
 
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-            Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-
-        .bad {
-          color: #e75353;
-        }
-        
-        .good {
-          color: #5084e3;
-        }
-
-        .container {
-          padding: 0 0.5rem;
-          justify-content: center;
-          align-items: center;
-          flex-basis: 2;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 1000px;
-          margin-top: 1rem;
-        }
-      `}
-      </style>
     </div>
   )
 }

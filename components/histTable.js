@@ -110,7 +110,7 @@ const HistTable = ({ state, data, population }) => {
                 {isCollapse ? <img className='expand-icon' src='/collapse-down.svg' /> : <img className='expand-icon' src='/collapse-up.svg' />}
               </a>
             </div>
-          </>
+            </>
           : "No historical Data"
       }
       <style jsx>{`
@@ -130,9 +130,11 @@ const HistTable = ({ state, data, population }) => {
         border: 1px solid #eaeaea;
         border-radius: 10px;
         transition: color 0.15s ease, border-color 0.15s ease;
+
+        
         text-align: left;
         font-color: #545454;
-        flex-basis: 50%;
+        display: inline-block;
       }
 
       .table-wrapper:hover {
@@ -147,7 +149,9 @@ const HistTable = ({ state, data, population }) => {
       .state-history-table {
         font-size: 13px;
         border-color: grey;
+        
         table-layout:fixed;
+        overflow-x:auto !important;
       }
       
       .state-history-table thead {

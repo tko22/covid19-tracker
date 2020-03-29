@@ -22,10 +22,13 @@ const StatCard = ({ title, data }) => (
         padding: 1rem;
         color: inherit;
         min-width: 300px;
+        max-width: 350px;
         text-decoration: none;
         border: 1px solid #eaeaea;
         border-radius: 10px;
         transition: color 0.15s ease, border-color 0.15s ease;
+
+        flex: 1;
       }
 
       .card:hover,

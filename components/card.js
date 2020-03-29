@@ -77,7 +77,7 @@ const Card = ({ state, today, hist, population }) => {
 
         <p className='last-updated-text'>Pop. {formatNum(population)}</p>
         <p className='last-updated-text'>Last Updated: {prettyDate(today.dateModified)}</p>
-        </>
+      </>
       : <p>No data</p>}
     <style jsx>{`
     
@@ -88,10 +88,13 @@ const Card = ({ state, today, hist, population }) => {
         padding: 1.5rem;
         color: inherit;
         min-width: 300px;
+        max-width: 350px;
+        
         text-decoration: none;
         border: 1px solid #eaeaea;
         border-radius: 10px;
         transition: color 0.15s ease, border-color 0.15s ease;
+        flex: 1;
       }
 
       .card:hover,
@@ -167,7 +170,7 @@ const Card = ({ state, today, hist, population }) => {
 
     `}
     </style>
-          </div>
+  </div>
   )
 }
 
