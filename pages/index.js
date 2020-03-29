@@ -8,7 +8,7 @@ import { Card, HistTable, ToggleNormalize, StatCard } from '../components'
 import { population, stateTranslations, prettyDate } from '../utils'
 import Select from 'react-select'
 import { STATES, TRACKER_URL } from '../utils/constants'
-import { LineChart, YAxis, XAxis, Line, Tooltip, CartesianGrid } from 'recharts'
+import { ComposedChart, Bar, YAxis, XAxis, Line, Tooltip, CartesianGrid } from 'recharts'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
@@ -34,7 +34,7 @@ const Home = () => {
   const { today: ilToday, hist: ilHist, todayHist: todayILHist } = fetchData("IL")
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist } = fetchData("NY")
 
-  const chartData = caliHist ? caliHist.map(day => ({ name: prettyDate(day.dateChecked, true), cases: day.positive })).reverse() : []
+  const chartData = caliHist ? caliHist.map(day => ({ name: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
   return (
     <div style={{ maxWidth: "100%" }}>
       <Head>
@@ -71,15 +71,17 @@ const Home = () => {
         <hr />
         <div className='row'>
           <div className='chart-box'>
-            <LineChart width={500} height={250} data={chartData}>
+            <ComposedChart width={600} height={300} data={chartData}>
               <CartesianGrid strokeDasharray='3 3' />
 
-              <XAxis dataKey='name' interval={4} />
-              <YAxis dataKey='cases' />
-              <Line type='monotone' dataKey='cases' stroke='#8884d8' />
+              <XAxis dataKey='name' interval={3} />
+              <YAxis dataKey='confirmed' />
+
+              <Line dataKey='new' barSize={6} fill='#413ea0' dot={false} />
+              <Line type='monotone' dataKey='confirmed' stroke='#8884d8' />
               <Tooltip />
 
-            </LineChart>
+            </ComposedChart>
           </div>
         </div>
       </main>
