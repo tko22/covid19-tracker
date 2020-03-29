@@ -1,8 +1,8 @@
 import moment from 'moment'
 
-const prettyDate = ms => {
+const prettyDate = (ms, chart) => {
   const d = moment(ms)
-  return d.format("MMM DD ddd")
+  return !chart ? d.format("MMM DD ddd") : d.format("M/D")
 }
 
 export default prettyDate

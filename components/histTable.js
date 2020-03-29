@@ -42,7 +42,7 @@ const HistTable = ({ state, data, population }) => {
               <tbody>
                 {
                   data.map(day => (
-                    <tr key={day.date}>
+                    <tr key={day.dateChecked}>
                       <td>{prettyDate(day.dateChecked)}</td>
                       <td>
                         <div className='stat-row'>
@@ -110,7 +110,7 @@ const HistTable = ({ state, data, population }) => {
                 {isCollapse ? <img className='expand-icon' src='/collapse-down.svg' /> : <img className='expand-icon' src='/collapse-up.svg' />}
               </a>
             </div>
-            </>
+          </>
           : "No historical Data"
       }
       <style jsx>{`

@@ -5,9 +5,10 @@ import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
 import { Card, HistTable, ToggleNormalize, StatCard } from '../components'
-import { population, stateTranslations } from '../utils'
+import { population, stateTranslations, prettyDate } from '../utils'
 import Select from 'react-select'
 import { STATES, TRACKER_URL } from '../utils/constants'
+import { LineChart, YAxis, XAxis, Line, Tooltip, CartesianGrid } from 'recharts'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
@@ -33,6 +34,7 @@ const Home = () => {
   const { today: ilToday, hist: ilHist, todayHist: todayILHist } = fetchData("IL")
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist } = fetchData("NY")
 
+  const chartData = caliHist ? caliHist.map(day => ({ name: prettyDate(day.dateChecked, true), cases: day.positive })).reverse() : []
   return (
     <div style={{ maxWidth: "100%" }}>
       <Head>
@@ -67,6 +69,19 @@ const Home = () => {
           </div>
         </div>
         <hr />
+        <div className='row'>
+          <div className='chart-box'>
+            <LineChart width={500} height={250} data={chartData}>
+              <CartesianGrid strokeDasharray='3 3' />
+
+              <XAxis dataKey='name' interval={4} />
+              <YAxis dataKey='cases' />
+              <Line type='monotone' dataKey='cases' stroke='#8884d8' />
+              <Tooltip />
+
+            </LineChart>
+          </div>
+        </div>
       </main>
 
       <footer>
@@ -125,6 +140,10 @@ const Home = () => {
           font-size: 1.1rem;
           font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
             DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+        }
+
+        .chart-box {
+          font-size: 12px;
         }
 
 
