@@ -135,6 +135,7 @@ const HistTable = ({ state, data, population }) => {
         text-align: left;
         font-color: #545454;
         display: inline-block;
+        overflow-x:auto !important;
       }
 
       .table-wrapper:hover {

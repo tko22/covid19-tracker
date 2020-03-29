@@ -4,11 +4,10 @@ import { useState } from 'react'
 import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
-import { Card, HistTable, ToggleNormalize, StatCard } from '../components'
+import { Card, HistTable, ToggleNormalize, StatCard, ConfirmedNewChart } from '../components'
 import { population, stateTranslations, prettyDate } from '../utils'
 import Select from 'react-select'
 import { STATES, TRACKER_URL } from '../utils/constants'
-import { ComposedChart, Bar, YAxis, XAxis, Line, Tooltip, CartesianGrid } from 'recharts'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
@@ -71,17 +70,7 @@ const Home = () => {
         <hr />
         <div className='row'>
           <div className='chart-box'>
-            <ComposedChart width={600} height={300} data={chartData}>
-              <CartesianGrid strokeDasharray='3 3' />
-
-              <XAxis dataKey='name' interval={3} />
-              <YAxis dataKey='confirmed' />
-
-              <Line dataKey='new' barSize={6} fill='#413ea0' dot={false} />
-              <Line type='monotone' dataKey='confirmed' stroke='#8884d8' />
-              <Tooltip />
-
-            </ComposedChart>
+            <ConfirmedNewChart histData={caliHist} />
           </div>
         </div>
       </main>
@@ -144,9 +133,7 @@ const Home = () => {
             DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
         }
 
-        .chart-box {
-          font-size: 12px;
-        }
+        
 
 
       `}

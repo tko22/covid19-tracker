@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Select from 'react-select'
 import useSWR from 'swr'
 import { stateTranslations, population, fetcher } from '../utils'
-import { Card, HistTable } from '../components'
+import { Card, HistTable, ConfirmedNewChart } from '../components'
 import { STATES, TRACKER_URL } from '../utils/constants'
 
 const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))
@@ -32,12 +32,12 @@ const SearchPage = () => {
         <div className='select-state-box'>
           <Select className='select-state' options={options} isSearchable placeholder='Select State' onChange={changeVal} />
         </div>
-        {today && hist &&
-          <>
-            <Card state={val} today={today} hist={todayHist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />
-
-          </>}
-        {today && hist && <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}
+        <div className='grid'>
+          {today && hist &&
+            <Card state={val} today={today} hist={todayHist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}
+          {today && hist && <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}
+          {hist && <ConfirmedNewChart histData={hist} />}
+        </div>
       </div>
       <style jsx>{`
         .select-state-box { 
