@@ -28,14 +28,18 @@ const SearchPage = () => {
       <div className='container'>
         <div className='row'>
           <Link href='/'><a className='page-link'>Home</a></Link>
+          <div className='select-state-box'>
+            <Select className='select-state' options={options} isSearchable placeholder='Select State' onChange={changeVal} />
+          </div>
         </div>
-        <div className='select-state-box'>
-          <Select className='select-state' options={options} isSearchable placeholder='Select State' onChange={changeVal} />
-        </div>
-        <div className='grid'>
+        <div className='row'>
           {today && hist &&
             <Card state={val} today={today} hist={todayHist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}
+        </div>
+        <div className='row'>
           {today && hist && <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}
+        </div>
+        <div className='row'>
           {hist && <ConfirmedNewChart histData={hist} />}
         </div>
       </div>
