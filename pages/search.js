@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Select from 'react-select'
 import useSWR from 'swr'
 import { stateTranslations, population, fetcher } from '../utils'
-import { Card, HistTable, ConfirmedNewChart } from '../components'
+import { StateStatCard, HistTable, ConfirmedNewChart } from '../components'
 import { STATES, TRACKER_URL } from '../utils/constants'
 
 const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))
@@ -34,7 +34,7 @@ const SearchPage = () => {
         </div>
         <div className='row'>
           {today && hist &&
-            <Card state={val} today={today} hist={todayHist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}
+            <StateStatCard state={val} today={today} hist={todayHist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}
         </div>
         <div className='row'>
           {today && hist && <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}

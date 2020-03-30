@@ -4,7 +4,7 @@ import { useState } from 'react'
 import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
-import { Card, HistTable, ToggleNormalize, StatCard, ConfirmedNewChart } from '../components'
+import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart } from '../components'
 import { population, stateTranslations, prettyDate } from '../utils'
 import Select from 'react-select'
 import { STATES, TRACKER_URL } from '../utils/constants'
@@ -33,7 +33,6 @@ const Home = () => {
   const { today: ilToday, hist: ilHist, todayHist: todayILHist } = fetchData("IL")
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist } = fetchData("NY")
 
-  const chartData = caliHist ? caliHist.map(day => ({ name: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
   return (
     <div style={{ maxWidth: "100%" }}>
       <Head>
@@ -58,12 +57,20 @@ const Home = () => {
         </div>
         <div className='row'>
           <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />
+          <Card>
+            <h3>Notes</h3>
+            <div className='stat-row'>
+              <ul>
+                <li>Increase in 0 may mean it was not reported.</li>
+              </ul>
+            </div>
+          </Card>
         </div>
         <div className='row'>
           <div className='grid'>
-            <Card state='California' today={caliToday} hist={todayCaliHist} population={population.states.california} />
-            <Card state='Illinois' today={ilToday} hist={todayILHist} population={population.states.illinois} />
-            <Card state='New York' today={nyToday} hist={todayNYHist} population={population.states.new_york} />
+            <StateStatCard state='California' today={caliToday} hist={todayCaliHist} population={population.states.california} />
+            <StateStatCard state='Illinois' today={ilToday} hist={todayILHist} population={population.states.illinois} />
+            <StateStatCard state='New York' today={nyToday} hist={todayNYHist} population={population.states.new_york} />
             <HistTable state='California' data={caliHist} population={population.states.california} />
           </div>
         </div>
