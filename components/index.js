@@ -5,6 +5,7 @@ import ToggleNormalize from './toggleNormalize'
 import ConfirmedNewChart from './confirmedNewChart'
 import StatCard from './statCard'
 import Card from './card'
+import Collapse from './collapse'
 
 export {
   StateStatCard,
@@ -13,5 +14,6 @@ export {
   ToggleNormalize,
   StatCard,
   ConfirmedNewChart,
-  Card
+  Card,
+  Collapse
 }

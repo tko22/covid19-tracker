@@ -1,10 +1,18 @@
+import Link from 'next/link'
 import { prettyDate, printStatVal, formatNum } from '../utils'
 import ToggleNormalize from './toggleNormalize'
 import { useState } from 'react'
+import Collapse from './collapse'
 
 const NORMALIZATION_FACTOR = 100000
 
-const StateStatCard = ({ state, today, hist, population }) => {
+const StateStatCard = ({ state, today, hist, population, stateInfo = {} }) => {
+  const [isCollapse, toggle] = useState(true)
+
+  const handleCollapseClick = () => (
+    toggle(!isCollapse)
+  )
+
   const [isNormalized, toggleNormalize] = useState(false)
   const handleNormalizeClick = () => (
     toggleNormalize(!isNormalized)
@@ -12,11 +20,11 @@ const StateStatCard = ({ state, today, hist, population }) => {
 
   return (<div className='card'>
     <div className='title-box'>
-      <h3>{state}</h3>
+      <h3><Link href={stateInfo.covid19Site || stateInfo.covid19SiteSecondary || ""}>{state}</Link></h3>
       <ToggleNormalize isNormalized={isNormalized} toggle={handleNormalizeClick} />
     </div>
     {today
-      ? <>
+      ? <div className='stat-box'>
         <div className='stat-row'>
           <p className='stat-title'>Positive: </p>
           <div className='stat-diff'>
@@ -77,8 +85,13 @@ const StateStatCard = ({ state, today, hist, population }) => {
 
         <p className='last-updated-text'>Pop. {formatNum(population)}</p>
         <p className='last-updated-text'>Last Updated: {prettyDate(today.dateModified)}</p>
-      </>
+      </div>
       : <p>No data</p>}
+    {
+      !isCollapse
+        ? <p>{stateInfo.notes}</p> : null
+    }
+    <Collapse isCollapse={isCollapse} handleCollapseClick={handleCollapseClick} />
     <style jsx>{`
     
       .card {
@@ -95,6 +108,8 @@ const StateStatCard = ({ state, today, hist, population }) => {
         border-radius: 10px;
         transition: color 0.15s ease, border-color 0.15s ease;
         flex: 1;
+        padding-bottom: 0.3rem;
+        overflow-x:auto !important;
       }
 
       .card:hover,
@@ -166,6 +181,10 @@ const StateStatCard = ({ state, today, hist, population }) => {
         flex: 2;
         font-size: 1.3rem;
         margin: 0.5rem 0.1rem;
+      }
+
+      .stat-box {
+        padding-bottom: 0.4rem;
       }
 
     `}

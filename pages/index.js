@@ -23,15 +23,16 @@ const Home = () => {
   const fetchData = state => {
     const { data: hist } = useSWR(`${TRACKER_URL}/states/daily?state=${state}`, fetcher)
     const { data: today } = useSWR(`${TRACKER_URL}/states?state=${state}`, fetcher)
-    return { today, hist, todayHist: hist ? hist[0] : {} }
+    const { data: info } = useSWR(`${TRACKER_URL}/states/info?state=${state}`, fetcher)
+    return { today, hist, todayHist: hist ? hist[0] : {}, info }
   }
   const { data: usToday } = useSWR(`https://covidtracking.com/api/us`, fetcher)
   const { data: usHist } = useSWR(`https://covidtracking.com/api/us/daily`, fetcher)
   const usTodayHist = usHist ? usHist[0] : {}
 
-  const { today: caliToday, hist: caliHist, todayHist: todayCaliHist } = fetchData("CA")
-  const { today: ilToday, hist: ilHist, todayHist: todayILHist } = fetchData("IL")
-  const { today: nyToday, hist: nyHist, todayHist: todayNYHist } = fetchData("NY")
+  const { today: caliToday, hist: caliHist, todayHist: todayCaliHist, info: caliInfo } = fetchData("CA")
+  const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("IL")
+  const { today: nyToday, hist: nyHist, todayHist: todayNYHist, info: nyInfo } = fetchData("NY")
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -43,6 +44,7 @@ const Home = () => {
             <>
               <link rel='preload' href={`${TRACKER_URL}/states/daily?state=${state}`} as='fetch' crossOrigin='anonymous' />
               <link rel='preload' href={`${TRACKER_URL}/states?state=${state}`} as='fetch' crossOrigin='anonymous' />
+              <link rel='preload' href={`${TRACKER_URL}/info?state=${state}`} as='fetch' crossOrigin='anonymous' />
             </>
           ))
         }
@@ -70,10 +72,10 @@ const Home = () => {
         </div>
         <div className='row'>
           <div className='grid'>
-            <StateStatCard state='California' today={caliToday} hist={todayCaliHist} population={population.states.california} />
-            <StateStatCard state='Illinois' today={ilToday} hist={todayILHist} population={population.states.illinois} />
-            <StateStatCard state='New York' today={nyToday} hist={todayNYHist} population={population.states.new_york} />
-            <HistTable state='California' data={caliHist} population={population.states.california} />
+            <StateStatCard state='California' today={caliToday} hist={todayCaliHist} population={population.states.california} stateInfo={caliInfo} />
+            <StateStatCard state='Illinois' today={ilToday} hist={todayILHist} population={population.states.illinois} stateInfo={ilInfo} />
+            <StateStatCard state='New York' today={nyToday} hist={todayNYHist} population={population.states.new_york} stateInfo={nyInfo} />
+            <HistTable state='California' data={caliHist} population={population.states.california} stateInfo={caliInfo} />
           </div>
         </div>
         <hr />
