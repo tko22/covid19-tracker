@@ -6,6 +6,7 @@ const ConfirmedNewChart = ({ histData }) => {
   const chartData = histData ? histData.map(day => ({ name: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
   return (
     <div className='chart-box'>
+      <h3 className='chart-title'>California Confirmed and New Cases</h3>
       <ComposedChart width={600} height={300} data={chartData} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
         <CartesianGrid strokeDasharray='3 3' />
 
@@ -20,6 +21,9 @@ const ConfirmedNewChart = ({ histData }) => {
       <style jsx>{`
         .chart-box {
           font-size: 12px;
+        }
+        .chart-title {
+          padding-left: 10px;
         }
       `}
       </style>

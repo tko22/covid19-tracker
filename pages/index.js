@@ -4,7 +4,7 @@ import { useState } from 'react'
 import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
-import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart } from '../components'
+import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart, BarLineChart } from '../components'
 import { population, stateTranslations, prettyDate } from '../utils'
 import Select from 'react-select'
 import { STATES, TRACKER_URL } from '../utils/constants'
@@ -33,6 +33,9 @@ const Home = () => {
   const { today: caliToday, hist: caliHist, todayHist: todayCaliHist, info: caliInfo } = fetchData("CA")
   const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("IL")
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist, info: nyInfo } = fetchData("NY")
+
+  const hospitalizedData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalized })).reverse() : []
+  const deathData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death })).reverse() : []
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -82,6 +85,8 @@ const Home = () => {
         <div className='row'>
           <div className='chart-box'>
             <ConfirmedNewChart histData={caliHist} />
+            <BarLineChart data={hospitalizedData} title='California Hospitalizations' xAxis='date' yAxis='hospitalized' />
+            <BarLineChart data={deathData} title='California Deaths' xAxis='date' yAxis='deaths' />
           </div>
         </div>
       </main>
