@@ -60,17 +60,11 @@ const Home = () => {
           <Card>
             <h3>Notes</h3>
             <div className='stat-row'>
-              <ul>
+              <ul className='note-list'>
                 <li>Increase in 0 may mean it was not reported.</li>
                 <li><Link href='https://www.sccgov.org/sites/phd/DiseaseInformation/novel-coronavirus/Pages/dashboard.aspx'><a>Santa Clara Data</a></Link></li>
                 <li><Link href='https://projects.sfchronicle.com/2020/coronavirus-map/'><a>Bay Area Tracking</a></Link></li>
               </ul>
-              <style jsx>{`
-                li {
-                  color: #767676;
-                }  
-              `}
-              </style>
             </div>
           </Card>
         </div>
@@ -147,7 +141,6 @@ const Home = () => {
           font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
             DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
         }
-
         
 
 

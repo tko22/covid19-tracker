@@ -63,6 +63,14 @@ const Card = ({ children }) => (
         flex-basis: 40px;
         text-align: right;
       }
+
+      .note-list {
+        color: #676767;
+      }
+
+      .note-list a {
+        color: #F497B8;
+      }
     `}
     </style>
   </div>
