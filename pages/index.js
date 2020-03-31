@@ -53,7 +53,7 @@ const Home = () => {
       <main>
         <h2 className='title'>Covid-19</h2>
         <div className='row'>
-          <Link href='/search'><a className='page-link'>Search</a></Link>
+          <Link href='/search'><a className='page-link'>Search State</a></Link>
         </div>
         <div className='row'>
           <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />
@@ -62,7 +62,15 @@ const Home = () => {
             <div className='stat-row'>
               <ul>
                 <li>Increase in 0 may mean it was not reported.</li>
+                <li><Link href='https://www.sccgov.org/sites/phd/DiseaseInformation/novel-coronavirus/Pages/dashboard.aspx'><a>Santa Clara Data</a></Link></li>
+                <li><Link href='https://projects.sfchronicle.com/2020/coronavirus-map/'><a>Bay Area Tracking</a></Link></li>
               </ul>
+              <style jsx>{`
+                li {
+                  color: #767676;
+                }  
+              `}
+              </style>
             </div>
           </Card>
         </div>
@@ -83,7 +91,7 @@ const Home = () => {
       </main>
 
       <footer>
-        <p>Data source from covidtracking.com</p>
+        <p>Data source from <Link href='https://covidtracking.com'><a>covidtracking.com</a></Link></p>
       </footer>
 
       <style jsx>{`
