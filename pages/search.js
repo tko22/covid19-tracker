@@ -40,7 +40,7 @@ const SearchPage = () => {
           {today && hist && <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}
         </div>
         <div className='row'>
-          {hist && <ConfirmedNewChart histData={hist} />}
+          {hist && <ConfirmedNewChart state={val} histData={hist} />}
         </div>
       </div>
       <style jsx>{`
