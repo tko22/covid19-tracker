@@ -1,12 +1,13 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
 import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart, MultiLineChart } from '../components'
 import { population, stateTranslations, prettyDate } from '../utils'
 import Select from 'react-select'
+import ReactGA from 'react-ga'
 import { STATES, TRACKER_URL } from '../utils/constants'
 
 const fetcher = url => fetch(url).then(r => r.json())
@@ -16,6 +17,14 @@ const options = Object.keys(stateTranslations).map(key => ({ value: stateTransla
 const Home = () => {
   const [val, updateState] = useState("Washington")
 
+  useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      ReactGA.initialize('UA-162426375-1')
+      window.GA_INITIALIZED = true
+    }
+    ReactGA.set({ page: window.location.pathname })
+    ReactGA.pageview(window.location.pathname)
+  })
   const changeVal = (e) => {
     updateState(e.label)
   }
