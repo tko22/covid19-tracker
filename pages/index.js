@@ -87,7 +87,7 @@ const Home = () => {
           <Card>
             <div className='stat-row'>
               <ul className='note-list'>
-                <li>New coverage often times highlights total numbers. If social distancing works, the # of new cases should flatten out, new hospitalizations will be next, and then new deaths will flatten out afterwards (lagging)</li>
+                <li>News coverage usually just highlights total numbers. If social distancing works, the # of new cases should flatten out, new hospitalizations will be next, and then new deaths will flatten out afterwards (lagging)</li>
                 <li>Remember: data we have reflects the # of cases and # of tests performed, hence the growth doesn't directly portray the actual growth. A spike in cases may be due to a spike in tests or even a spike in reports of tests.</li>
               </ul>
             </div>
