@@ -8,7 +8,7 @@ import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNew
 import { population, stateTranslations, prettyDate } from '../utils'
 import Select from 'react-select'
 import ReactGA from 'react-ga'
-import { STATES, TRACKER_URL } from '../utils/constants'
+import { STATES, TRACKER_URL, COVID_URL } from '../utils/constants'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
@@ -25,6 +25,7 @@ const Home = () => {
     ReactGA.set({ page: window.location.pathname })
     ReactGA.pageview(window.location.pathname)
   })
+
   const changeVal = (e) => {
     updateState(e.label)
   }
@@ -38,7 +39,8 @@ const Home = () => {
   const { data: usToday } = useSWR(`https://covidtracking.com/api/us`, fetcher)
   const { data: usHist } = useSWR(`https://covidtracking.com/api/us/daily`, fetcher)
   const usTodayHist = usHist ? usHist[0] : {}
-  const { data: sccToday } = useSWR(`https://covid-api.timothyko.org/api/counties?county=santa-clara`, fetcher)
+  const { data: sccToday } = useSWR(`${COVID_URL}/counties?county=santa-clara`, fetcher)
+  const { data: sccHist } = useSWR(`${COVID_URL}/daily?county=santa-clara`, fetcher)
 
   const { today: caliToday, hist: caliHist, todayHist: todayCaliHist, info: caliInfo } = fetchData("CA")
   const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("IL")
@@ -59,6 +61,7 @@ const Home = () => {
               <link rel='preload' href={`${TRACKER_URL}/states/daily?state=${state}`} as='fetch' crossOrigin='anonymous' />
               <link rel='preload' href={`${TRACKER_URL}/states?state=${state}`} as='fetch' crossOrigin='anonymous' />
               <link rel='preload' href={`${TRACKER_URL}/info?state=${state}`} as='fetch' crossOrigin='anonymous' />
+              <link rel='preload' href={`${COVID_URL}/counties?county=santa-clara`} as='fetch' crossOrigin='anonymous' />
             </>
           ))
         }
