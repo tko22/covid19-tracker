@@ -63,7 +63,6 @@ const Home = () => {
           ))
         }
         <script type='text/javascript' src='date.js' />
-
       </Head>
 
       <main>
