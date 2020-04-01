@@ -29,6 +29,7 @@ const Home = () => {
   const { data: usToday } = useSWR(`https://covidtracking.com/api/us`, fetcher)
   const { data: usHist } = useSWR(`https://covidtracking.com/api/us/daily`, fetcher)
   const usTodayHist = usHist ? usHist[0] : {}
+  const { data: sccToday } = useSWR(`https://covid-api.timothyko.org/api/counties?county=santa-clara`, fetcher)
 
   const { today: caliToday, hist: caliHist, todayHist: todayCaliHist, info: caliInfo } = fetchData("CA")
   const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("IL")
@@ -63,6 +64,7 @@ const Home = () => {
         </div>
         <div className='row'>
           <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />
+          {sccToday ? <StatCard title='Santa Clara' data={{}} positive={sccToday.Confirmed} death={sccToday.Deaths} /> : null}
           <Card>
             <h3>Notes</h3>
             <div className='stat-row'>

@@ -1,19 +1,21 @@
 
-const StatCard = ({ title, data }) => (
+const StatCard = ({ title, data, positive, death }) => (
   <div className='card'>
     <h3>{title}</h3>
     <div className='stat-row'>
       <p className='stat-title'>Positive: </p>
-      <p className='stat-val'>{data.positive}</p>
+      <p className='stat-val'>{positive || data.positive}</p>
     </div>
     <div className='stat-row'>
       <p className='stat-title'>Deaths: </p>
-      <p className='stat-val'>{data.death}</p>
+      <p className='stat-val'>{death || data.death}</p>
     </div>
-    <div className='stat-row'>
-      <p className='stat-title'>Total Tests: </p>
-      <p className='stat-val'>{data.totalTestResults}</p>
-    </div>
+    {data.totalTestResults
+      ? <div className='stat-row'>
+        <p className='stat-title'>Total Tests: </p>
+        <p className='stat-val'>{data.totalTestResults}</p>
+      </div>
+      : null}
     <style jsx>{`
       .card {
         margin: 1rem;
