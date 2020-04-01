@@ -4,6 +4,7 @@ import population from './population'
 import formatNum from './formatNum'
 import stateTranslations from './stateTranslations'
 import fetcher from './fetcher'
+import prettyJHUDate from './prettyJHUDate'
 
 export {
   prettyDate,
@@ -11,5 +12,6 @@ export {
   population,
   formatNum,
   stateTranslations,
-  fetcher
+  fetcher,
+  prettyJHUDate
 }

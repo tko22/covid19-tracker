@@ -5,10 +5,11 @@ import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
 import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart, MultiLineChart } from '../components'
-import { population, stateTranslations, prettyDate } from '../utils'
+import { population, stateTranslations, prettyDate, prettyJHUDate } from '../utils'
 import Select from 'react-select'
 import ReactGA from 'react-ga'
 import { STATES, TRACKER_URL, COVID_URL } from '../utils/constants'
+import { ComposedChart, Bar, YAxis, XAxis, Line, Tooltip, CartesianGrid } from 'recharts'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
@@ -49,6 +50,8 @@ const Home = () => {
   const hospitalizedData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalized, new: day.hospitalizedIncrease })).reverse() : []
   const deathData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
   const chartData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
+  const caliConfirmedData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
+  const sccChartData = sccHist ? sccHist.map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: parseInt(day.positiveIncrease) })) : []
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -107,10 +110,10 @@ const Home = () => {
           </Card>
           <div className='grid'>
 
-            <ConfirmedNewChart histData={caliHist} state='California' />
+            <ConfirmedNewChart data={caliConfirmedData} state='California' />
             <MultiLineChart data={hospitalizedData} title='California Hospitalizations' xAxis='date' yAxis={['hospitalized', 'new']} />
             <MultiLineChart data={deathData} title='California Deaths' xAxis='date' yAxis={['deaths', 'new']} />
-            {/* <MultiLineChart data={chartData} title='California on log scale' xAxis='confirmed' yAxis={['new']} xScale='log' yScale='log' /> */}
+            <MultiLineChart data={sccChartData} title='Santa Clara' xAxis='date' yAxis={['confirmed', 'new']} />
           </div>
         </div>
       </main>

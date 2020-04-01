@@ -11,8 +11,8 @@ const MultiLineChart = ({ title, data, xAxis, yAxis = [], xScale = "auto", yScal
       <ComposedChart width={600} height={300} data={data} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
         <CartesianGrid strokeDasharray='3 3' />
 
-        <XAxis dataKey={xAxis} scale={xScale} domain={[0, 'auto']} allowDataOverflow />
-        <YAxis dataKey={yAxis[0]} scale={yScale} domain={[0, 'auto']} allowDataOverflow />
+        <XAxis dataKey={xAxis} scale={xScale} domain={['auto', 'auto']} />
+        <YAxis dataKey={yAxis[0]} scale={yScale} domain={[0, 'dataMax']} />
         {yAxis.map((yKey, idx) => (
           <Line key={idx} type='monotone' dataKey={yKey} stroke={LINE_COLORS[idx]} dot={false} />
         ))}

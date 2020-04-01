@@ -2,15 +2,14 @@
 import { prettyDate } from '../utils'
 import { ComposedChart, Bar, YAxis, XAxis, Line, Tooltip, CartesianGrid } from 'recharts'
 
-const ConfirmedNewChart = ({ histData, state }) => {
-  const chartData = histData ? histData.map(day => ({ name: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
+const ConfirmedNewChart = ({ data, state }) => {
   return (
     <div className='chart-box'>
       <h3 className='chart-title'>{state} Confirmed and New Cases</h3>
-      <ComposedChart width={600} height={300} data={chartData} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+      <ComposedChart width={600} height={300} data={data} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
         <CartesianGrid strokeDasharray='3 3' />
 
-        <XAxis dataKey='name' />
+        <XAxis dataKey='date' />
         <YAxis dataKey='confirmed' />
 
         <Line dataKey='new' fill='#413ea0' dot={false} />
