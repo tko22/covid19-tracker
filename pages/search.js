@@ -2,8 +2,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Select from 'react-select'
 import useSWR from 'swr'
-import { stateTranslations, population, fetcher } from '../utils'
-import { StateStatCard, HistTable, ConfirmedNewChart } from '../components'
+import { stateTranslations, population, fetcher, prettyDate } from '../utils'
+import { StateStatCard, HistTable, ConfirmedNewChart, MultiLineChart } from '../components'
 import { STATES, TRACKER_URL } from '../utils/constants'
 
 const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))
@@ -22,6 +22,8 @@ const SearchPage = () => {
   }
 
   const { today, hist, todayHist } = val !== "" ? fetchData(stateTranslations[val]) : { today: null, hist: null, todayHist: null }
+  const hospitalizedData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalized, new: day.hospitalizedIncrease })).reverse() : []
+  const deathData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
 
   return (
     <main>
@@ -40,7 +42,12 @@ const SearchPage = () => {
           {today && hist && <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}
         </div>
         <div className='row'>
-          {hist && <ConfirmedNewChart state={val} histData={hist} />}
+          {hist &&
+            <>
+              <ConfirmedNewChart histData={hist} state={val} />
+              <MultiLineChart data={hospitalizedData} title={`${val} Hospitalizations`} xAxis='date' yAxis={['hospitalized', 'new']} />
+              <MultiLineChart data={deathData} title={`${val} Deaths`} xAxis='date' yAxis={['deaths', 'new']} />
+            </>}
         </div>
       </div>
       <style jsx>{`

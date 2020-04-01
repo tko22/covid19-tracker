@@ -6,7 +6,7 @@ import ConfirmedNewChart from './confirmedNewChart'
 import StatCard from './statCard'
 import Card from './card'
 import Collapse from './collapse'
-import BarLineChart from './barLineChart'
+import MultiLineChart from './multiLineChart'
 
 export {
   StateStatCard,
@@ -17,5 +17,5 @@ export {
   ConfirmedNewChart,
   Card,
   Collapse,
-  BarLineChart
+  MultiLineChart
 }

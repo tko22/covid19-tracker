@@ -4,7 +4,7 @@ import { useState } from 'react'
 import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
-import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart, BarLineChart } from '../components'
+import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart, MultiLineChart } from '../components'
 import { population, stateTranslations, prettyDate } from '../utils'
 import Select from 'react-select'
 import { STATES, TRACKER_URL } from '../utils/constants'
@@ -34,8 +34,9 @@ const Home = () => {
   const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("IL")
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist, info: nyInfo } = fetchData("NY")
 
-  const hospitalizedData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalized })).reverse() : []
-  const deathData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death })).reverse() : []
+  const hospitalizedData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalized, new: day.hospitalizedIncrease })).reverse() : []
+  const deathData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
+  const chartData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -83,10 +84,20 @@ const Home = () => {
         </div>
         <hr />
         <div className='row'>
-          <div className='chart-box'>
-            <ConfirmedNewChart histData={caliHist} />
-            <BarLineChart data={hospitalizedData} title='California Hospitalizations' xAxis='date' yAxis='hospitalized' />
-            <BarLineChart data={deathData} title='California Deaths' xAxis='date' yAxis='deaths' />
+          <Card>
+            <div className='stat-row'>
+              <ul className='note-list'>
+                <li>New coverage often times highlights total numbers. If social distancing works, the # of new cases should flatten out, new hospitalizations will be next, and then new deaths will flatten out afterwards (lagging)</li>
+                <li>Remember: data we have reflects the # of cases and # of tests performed, hence the growth doesn't directly portray the actual growth. A spike in cases may be due to a spike in tests or even a spike in reports of tests.</li>
+              </ul>
+            </div>
+          </Card>
+          <div className='grid'>
+
+            <ConfirmedNewChart histData={caliHist} state='California' />
+            <MultiLineChart data={hospitalizedData} title='California Hospitalizations' xAxis='date' yAxis={['hospitalized', 'new']} />
+            <MultiLineChart data={deathData} title='California Deaths' xAxis='date' yAxis={['deaths', 'new']} />
+            {/* <MultiLineChart data={chartData} title='California on log scale' xAxis='confirmed' yAxis={['new']} xScale='log' yScale='log' /> */}
           </div>
         </div>
       </main>
