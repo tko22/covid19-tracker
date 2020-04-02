@@ -24,6 +24,7 @@ const SearchPage = () => {
   const { today, hist, todayHist } = val !== "" ? fetchData(stateTranslations[val]) : { today: null, hist: null, todayHist: null }
   const hospitalizedData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalized, new: day.hospitalizedIncrease })).reverse() : []
   const deathData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
+  const chartData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
 
   return (
     <main>
@@ -44,7 +45,7 @@ const SearchPage = () => {
         <div className='row'>
           {hist &&
             <>
-              <ConfirmedNewChart histData={hist} state={val} />
+              <ConfirmedNewChart data={chartData} state={val} />
               <MultiLineChart data={hospitalizedData} title={`${val} Hospitalizations`} xAxis='date' yAxis={['hospitalized', 'new']} />
               <MultiLineChart data={deathData} title={`${val} Deaths`} xAxis='date' yAxis={['deaths', 'new']} />
             </>}
