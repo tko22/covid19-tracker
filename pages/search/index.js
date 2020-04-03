@@ -2,9 +2,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Select from 'react-select'
 import useSWR from 'swr'
-import { stateTranslations, population, fetcher, prettyDate } from '../utils'
-import { StateStatCard, HistTable, ConfirmedNewChart, MultiLineChart } from '../components'
-import { STATES, TRACKER_URL, TRACKER_URL_V1 } from '../utils/constants'
+import { stateTranslations, population, fetcher, prettyDate } from '../../utils'
+import { StateStatCard, HistTable, ConfirmedNewChart, MultiLineChart } from '../../components'
+import { STATES, TRACKER_URL, TRACKER_URL_V1 } from '../../utils/constants'
 
 const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))
 
@@ -21,16 +21,17 @@ const SearchPage = () => {
       const { data: tempToday } = useSWR(`${TRACKER_URL}/us`, fetcher)
       const today = tempToday ? tempToday[0] : null
       const { data: hist } = useSWR(`${TRACKER_URL}/us/daily`, fetcher)
-      return { today, hist, todayHist: hist ? hist[0] : {} }
+      return { today, hist, todayHist: hist ? hist[0] : {}, info: null }
     }
 
     // if state
     const { data: hist } = useSWR(`${TRACKER_URL}/states/daily?state=${state}`, fetcher)
     const { data: today } = useSWR(`${TRACKER_URL}/states?state=${state}`, fetcher)
-    return { today, hist, todayHist: hist ? hist[0] : {} }
+    const { data: info } = useSWR(`${TRACKER_URL}/states/info?state=${state}`, fetcher)
+    return { today, hist, todayHist: hist ? hist[0] : {}, info }
   }
 
-  const { today, hist, todayHist } = val !== "" ? fetchData(stateTranslations[val]) : { today: null, hist: null, todayHist: null }
+  const { today, hist, todayHist, info } = val !== "" ? fetchData(stateTranslations[val]) : { today: null, hist: null, todayHist: null }
   const hospitalizedData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalized, new: day.hospitalizedIncrease })).reverse() : []
   const deathData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
   const chartData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
@@ -44,13 +45,16 @@ const SearchPage = () => {
             <Select className='select-state' options={options} isSearchable placeholder='Select State' onChange={changeVal} />
           </div>
         </div>
-        <div className='row'>
-          {today && hist &&
-            <StateStatCard state={val} today={today} hist={todayHist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}
-        </div>
-        <div className='row'>
-          {today && hist && <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />}
-        </div>
+        {today && hist
+          ? <>
+            <div className='row'>
+              <StateStatCard state={val} today={today} hist={todayHist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} stateInfo={info || {}} />
+            </div>
+            <div className='row'>
+              <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />
+            </div>
+          </>
+          : null}
         <div className='row'>
           {hist &&
             <>
