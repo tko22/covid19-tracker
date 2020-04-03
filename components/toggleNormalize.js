@@ -4,13 +4,13 @@ const ToggleNormalize = ({ isNormalized, toggle }) => (
     {
       isNormalized
         ? <>
-          <p>per 10,000</p>
+          <p>per 100,000</p>
           <img className='toggle-icon' src='/toggle-right.svg' onClick={toggle} />
-          </>
+        </>
         : <>
           <p>cases</p>
           <img className='toggle-icon' src='/toggle-left.svg' onClick={toggle} />
-          </>
+        </>
     }
     <style jsx>{`
       .toggle-box {
