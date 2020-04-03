@@ -48,6 +48,7 @@ const stateTranslations = {
   Washington: 'WA',
   'West Virginia': 'WV',
   Wisconsin: 'WI',
-  Wyoming: 'WY'
+  Wyoming: 'WY',
+  USA: 'USA'
 }
 export default stateTranslations

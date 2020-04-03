@@ -4,7 +4,7 @@ import Select from 'react-select'
 import useSWR from 'swr'
 import { stateTranslations, population, fetcher, prettyDate } from '../utils'
 import { StateStatCard, HistTable, ConfirmedNewChart, MultiLineChart } from '../components'
-import { STATES, TRACKER_URL } from '../utils/constants'
+import { STATES, TRACKER_URL, TRACKER_URL_V1 } from '../utils/constants'
 
 const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))
 
@@ -16,6 +16,15 @@ const SearchPage = () => {
   }
 
   const fetchData = state => {
+    // if USA
+    if (state === "USA") {
+      const { data: tempToday } = useSWR(`${TRACKER_URL}/us`, fetcher)
+      const today = tempToday ? tempToday[0] : null
+      const { data: hist } = useSWR(`${TRACKER_URL}/us/daily`, fetcher)
+      return { today, hist, todayHist: hist ? hist[0] : {} }
+    }
+
+    // if state
     const { data: hist } = useSWR(`${TRACKER_URL}/states/daily?state=${state}`, fetcher)
     const { data: today } = useSWR(`${TRACKER_URL}/states?state=${state}`, fetcher)
     return { today, hist, todayHist: hist ? hist[0] : {} }

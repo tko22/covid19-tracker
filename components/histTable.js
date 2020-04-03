@@ -35,6 +35,7 @@ const HistTable = ({ state, data, population }) => {
                   <th>Negative</th>
                   <th>Pending</th>
                   <th>Hospitalized</th>
+                  <th>In ICU</th>
                   <th>Deaths</th>
                   <th>Total Test Results</th>
                 </tr>
@@ -69,13 +70,18 @@ const HistTable = ({ state, data, population }) => {
                       <td>{printStatVal(day.pending, population, isNormalized, NORMALIZATION_FACTOR)}</td>
                       <td>
                         <div className='stat-row'>
-                          <p className='stat-val'>{printStatVal(day.hospitalized, population, isNormalized, NORMALIZATION_FACTOR)}</p>
+                          <p className='stat-val'>{printStatVal(day.hospitalizedCurrently, population, isNormalized, NORMALIZATION_FACTOR)}</p>
                           <div className='stat-diff'>
                             {/* <img className='stat-incr-icon' src='/chevrons-up-bad.svg' /> */}
                             <p className='stat-incr bad'>
                               +{day.hospitalizedIncrease}
                             </p>
                           </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className='stat-row'>
+                          <p className='stat-val'>{printStatVal(day.inIcuCurrently, population, isNormalized, NORMALIZATION_FACTOR)}</p>
                         </div>
                       </td>
                       <td>
@@ -110,7 +116,7 @@ const HistTable = ({ state, data, population }) => {
                 {isCollapse ? <img className='expand-icon' src='/collapse-down.svg' /> : <img className='expand-icon' src='/collapse-up.svg' />}
               </a>
             </div>
-          </>
+            </>
           : "No historical Data"
       }
       <style jsx>{`
