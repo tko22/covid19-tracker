@@ -33,7 +33,7 @@ const HistTable = ({ state, data, population }) => {
                   <th>Date</th>
                   <th>Positive</th>
                   <th>Negative</th>
-                  <th>Pending</th>
+                  <th>Pending Tests</th>
                   <th>Hospitalized</th>
                   <th>In ICU</th>
                   <th>Deaths</th>
@@ -116,7 +116,7 @@ const HistTable = ({ state, data, population }) => {
                 {isCollapse ? <img className='expand-icon' src='/collapse-down.svg' /> : <img className='expand-icon' src='/collapse-up.svg' />}
               </a>
             </div>
-            </>
+          </>
           : "No historical Data"
       }
       <style jsx>{`

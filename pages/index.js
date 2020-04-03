@@ -84,6 +84,8 @@ const Home = () => {
             <div className='stat-row'>
               <ul className='note-list'>
                 <li>Increase in 0 may mean it was not reported.</li>
+                <li>Pending Tests means # of tests waiting for results.</li>
+                <li>Total Tests means positive + negative tests, not including pending tests.</li>
                 <li><Link href='https://www.sccgov.org/sites/phd/DiseaseInformation/novel-coronavirus/Pages/dashboard.aspx'><a>Santa Clara Data</a></Link></li>
                 <li><Link href='https://projects.sfchronicle.com/2020/coronavirus-map/'><a>Bay Area Tracking</a></Link></li>
               </ul>
@@ -120,6 +122,7 @@ const Home = () => {
 
       <footer>
         <p>Data source from <Link href='https://covidtracking.com'><a>covidtracking.com</a></Link></p>
+        <Link href='https://github.com/tko22/covid19-tracker'><a>Open source on Github</a></Link>
       </footer>
 
       <style jsx>{`
