@@ -9,7 +9,7 @@ import { STATES, TRACKER_URL, TRACKER_URL_V1 } from '../../utils/constants'
 const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))
 
 const SearchPage = () => {
-  const [val, updateState] = useState("Washington")
+  const [val, updateState] = useState("USA")
 
   const changeVal = (e) => {
     updateState(e.label)
@@ -21,6 +21,7 @@ const SearchPage = () => {
       const { data: tempToday } = useSWR(`${TRACKER_URL}/us`, fetcher)
       const today = tempToday ? tempToday[0] : null
       const { data: hist } = useSWR(`${TRACKER_URL}/us/daily`, fetcher)
+      const { data } = useSWR(`${TRACKER_URL}/us/daily`, fetcher) // because u need to have the same amount of hooks
       return { today, hist, todayHist: hist ? hist[0] : {}, info: null }
     }
 
@@ -31,7 +32,7 @@ const SearchPage = () => {
     return { today, hist, todayHist: hist ? hist[0] : {}, info }
   }
 
-  const { today, hist, todayHist, info } = val !== "" ? fetchData(stateTranslations[val]) : { today: null, hist: null, todayHist: null }
+  const { today, hist, todayHist, info } = val !== "" ? fetchData(stateTranslations[val]) : { today: null, hist: null, todayHist: null, info: null }
   const hospitalizedData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalized, new: day.hospitalizedIncrease })).reverse() : []
   const deathData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
   const chartData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
