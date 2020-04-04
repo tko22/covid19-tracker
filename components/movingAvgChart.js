@@ -4,6 +4,7 @@ import { ComposedChart, Bar, YAxis, XAxis, Line, Tooltip, CartesianGrid } from '
 const MovingAvgChart = ({ data, title }) => {
   const mavgArr = ema(data.map(day => day.new), 5)
   const chartData = data.map((day, index) => { return { ...day, mavg: index > 5 ? mavgArr[index] : 0 } })
+  console.log(chartData)
   return (
     <div className='chart-box'>
       <h3 className='chart-title'>{title}</h3>
@@ -13,7 +14,7 @@ const MovingAvgChart = ({ data, title }) => {
         <XAxis dataKey='date' />
         <YAxis dataKey='new' />
 
-        <Bar dataKey='new' fill='#413ea0' dot={false} />
+        <Bar dataKey='new' fill='#9dcbe1' dot={false} />
         <Line type='monotone' dataKey='mavg' stroke='#ff8b65' />
         <Tooltip />
 
