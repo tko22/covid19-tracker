@@ -7,6 +7,7 @@ import StatCard from './statCard'
 import Card from './card'
 import Collapse from './collapse'
 import MultiLineChart from './multiLineChart'
+import MovingAvgChart from './movingAvgChart'
 
 export {
   StateStatCard,
@@ -17,5 +18,6 @@ export {
   ConfirmedNewChart,
   Card,
   Collapse,
-  MultiLineChart
+  MultiLineChart,
+  MovingAvgChart
 }

@@ -5,6 +5,7 @@ import formatNum from './formatNum'
 import stateTranslations from './stateTranslations'
 import fetcher from './fetcher'
 import prettyJHUDate from './prettyJHUDate'
+import { ema, sma } from './math'
 
 export {
   prettyDate,
@@ -13,5 +14,7 @@ export {
   formatNum,
   stateTranslations,
   fetcher,
-  prettyJHUDate
+  prettyJHUDate,
+  ema,
+  sma
 }

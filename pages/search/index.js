@@ -2,8 +2,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Select from 'react-select'
 import useSWR from 'swr'
-import { stateTranslations, population, fetcher, prettyDate } from '../../utils'
-import { StateStatCard, HistTable, ConfirmedNewChart, MultiLineChart } from '../../components'
+import { stateTranslations, population, fetcher, prettyDate, ema } from '../../utils'
+import { StateStatCard, HistTable, ConfirmedNewChart, MultiLineChart, MovingAvgChart } from '../../components'
 import { STATES, TRACKER_URL, TRACKER_URL_V1 } from '../../utils/constants'
 
 const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))

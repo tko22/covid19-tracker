@@ -1,15 +1,15 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import Select from 'react-select'
+import ReactGA from 'react-ga'
 import rd3 from 'react-d3-library'
 import useSWR from 'swr'
 import fetch from 'unfetch'
-import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart, MultiLineChart } from '../components'
-import { population, stateTranslations, prettyDate, prettyJHUDate } from '../utils'
-import Select from 'react-select'
-import ReactGA from 'react-ga'
-import { STATES, TRACKER_URL, COVID_URL } from '../utils/constants'
 import { ComposedChart, Bar, YAxis, XAxis, Line, Tooltip, CartesianGrid } from 'recharts'
+import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart, MultiLineChart, MovingAvgChart } from '../components'
+import { STATES, TRACKER_URL, COVID_URL } from '../utils/constants'
+import { population, stateTranslations, prettyDate, prettyJHUDate } from '../utils'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
@@ -116,13 +116,14 @@ const Home = () => {
             <MultiLineChart data={hospitalizedData} title='California Hospitalizations' xAxis='date' yAxis={['hospitalized', 'new']} />
             <MultiLineChart data={deathData} title='California Deaths' xAxis='date' yAxis={['deaths', 'new']} />
             <MultiLineChart data={sccChartData} title='Santa Clara' xAxis='date' yAxis={['confirmed', 'new']} />
+            <MovingAvgChart data={caliConfirmedData} title='California Case Growth Moving Average' />
           </div>
         </div>
       </main>
 
       <footer>
-        <p>Data source from <Link href='https://covidtracking.com'><a>covidtracking.com</a></Link></p>
-        <Link href='https://github.com/tko22/covid19-tracker'><a>Open source on Github</a></Link>
+        <div className='row'><p>Data source from <Link href='https://covidtracking.com'><a>covidtracking.com</a></Link></p></div>
+        <div className='row'><p><Link href='https://github.com/tko22/covid19-tracker'><a>Open source on Github</a></Link></p></div>
       </footer>
 
       <style jsx>{`
@@ -153,6 +154,7 @@ const Home = () => {
 
         footer p {
           font-size: 12px;
+          display: inline-block;
         }
 
         .title a {
@@ -179,8 +181,9 @@ const Home = () => {
             DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
         }
         
-
-
+        footer a{
+          color: #0070f3;
+        }
       `}
       </style>
 
