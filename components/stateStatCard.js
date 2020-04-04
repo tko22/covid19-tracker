@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import { prettyDate, printStatVal, formatNum } from '../utils'
-import ToggleNormalize from './toggleNormalize'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Collapse from './collapse'
+import ToggleNormalize from './toggleNormalize'
+import { prettyDate, printStatVal, formatNum } from '../utils'
 
 const NORMALIZATION_FACTOR = 100000
 

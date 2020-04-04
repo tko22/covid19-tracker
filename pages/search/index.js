@@ -1,15 +1,25 @@
-import { useState } from 'react'
 import Link from 'next/link'
-import Select from 'react-select'
 import useSWR from 'swr'
-import { stateTranslations, population, fetcher, prettyDate, ema } from '../../utils'
+import { useState, useEffect } from 'react'
+import Select from 'react-select'
+import ReactGA from 'react-ga'
 import { StateStatCard, HistTable, ConfirmedNewChart, MultiLineChart, MovingAvgChart } from '../../components'
+import { stateTranslations, population, fetcher, prettyDate, ema } from '../../utils'
 import { STATES, TRACKER_URL, TRACKER_URL_V1 } from '../../utils/constants'
 
 const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))
 
 const SearchPage = () => {
   const [val, updateState] = useState("USA")
+
+  useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      ReactGA.initialize('UA-162426375-1')
+      window.GA_INITIALIZED = true
+    }
+    ReactGA.set({ page: window.location.pathname })
+    ReactGA.pageview(window.location.pathname)
+  })
 
   const changeVal = (e) => {
     updateState(e.label)
@@ -54,7 +64,7 @@ const SearchPage = () => {
             <div className='row'>
               <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />
             </div>
-          </>
+            </>
           : null}
         <div className='row'>
           {hist &&
