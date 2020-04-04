@@ -1,9 +1,10 @@
 import { prettyDate, ema, sma } from '../utils'
 import { ComposedChart, Bar, YAxis, XAxis, Line, Tooltip, CartesianGrid } from 'recharts'
 
+const RANGE = 7 // 7 day moving average
 const MovingAvgChart = ({ data, title }) => {
-  const mavgArr = ema(data.map(day => day.new), 5)
-  const chartData = data.map((day, index) => { return { ...day, mavg: index > 5 ? mavgArr[index] : 0 } })
+  const mavgArr = ema(data.map(day => day.new), RANGE)
+  const chartData = data.map((day, index) => { return { ...day, mavg: index > RANGE ? mavgArr[index] : 0 } })
   console.log(chartData)
   return (
     <div className='chart-box'>

@@ -40,8 +40,10 @@ const Card = ({ children }) => (
         padding-left: 7px;
         margin: 0 7px;
       }
+
       .card li {
         font-size: 0.9rem;
+        padding-bottom: 4px;
       }
 
       .stat-row {
