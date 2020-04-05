@@ -64,7 +64,7 @@ const SearchPage = () => {
             <div className='row'>
               <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />
             </div>
-          </>
+            </>
           : null}
         <div className='row'>
           {hist &&
@@ -72,6 +72,7 @@ const SearchPage = () => {
               <ConfirmedNewChart data={chartData} state={val} />
               <MultiLineChart data={hospitalizedData} title={`${val} Hospitalizations`} xAxis='date' yAxis={['hospitalized', 'new']} />
               <MultiLineChart data={deathData} title={`${val} Deaths`} xAxis='date' yAxis={['deaths', 'new']} />
+              <MovingAvgChart data={chartData} title={`${val} Case Growth Moving Average`} />
             </>}
         </div>
       </div>
