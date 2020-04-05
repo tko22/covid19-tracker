@@ -64,7 +64,7 @@ const SearchPage = () => {
             <div className='row'>
               <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />
             </div>
-            </>
+          </>
           : null}
         <div className='row'>
           {hist &&

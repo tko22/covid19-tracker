@@ -42,6 +42,8 @@ const Home = () => {
   const usTodayHist = usHist ? usHist[0] : {}
   const { data: sccToday } = useSWR(`${COVID_URL}/counties?county=santa-clara`, fetcher)
   const { data: sccHist } = useSWR(`${COVID_URL}/daily?county=santa-clara`, fetcher)
+  const { data: bayHist } = useSWR(`${COVID_URL}/daily?area=bay-area`, fetcher)
+  const { data: champaignHist } = useSWR(`${COVID_URL}/daily?county=champaign`, fetcher)
 
   const { today: caliToday, hist: caliHist, todayHist: todayCaliHist, info: caliInfo } = fetchData("CA")
   const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("IL")
@@ -51,6 +53,8 @@ const Home = () => {
   const deathData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
   const caliConfirmedData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
   const sccChartData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
+  const bayChartData = bayHist ? bayHist.slice(35).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
+  const champaignChartData = champaignHist ? champaignHist.slice(35).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -64,6 +68,8 @@ const Home = () => {
               <link rel='preload' href={`${TRACKER_URL}/states?state=${state}`} as='fetch' crossOrigin='anonymous' />
               <link rel='preload' href={`${TRACKER_URL}/info?state=${state}`} as='fetch' crossOrigin='anonymous' />
               <link rel='preload' href={`${COVID_URL}/counties?county=santa-clara`} as='fetch' crossOrigin='anonymous' />
+              <link rel='preload' href={`${COVID_URL}/daily?area=bay-area`} as='fetch' crossOrigin='anonymous' />
+              <link rel='preload' href={`${COVID_URL}/counties?area=bay-area`} as='fetch' crossOrigin='anonymous' />
             </>
           ))
         }
@@ -116,6 +122,8 @@ const Home = () => {
             <MultiLineChart data={deathData} title='California Deaths' xAxis='date' yAxis={['deaths', 'new']} />
             <MultiLineChart data={sccChartData} title='Santa Clara' xAxis='date' yAxis={['confirmed', 'new']} />
             <MovingAvgChart data={caliConfirmedData} title='California Case Growth Moving Average' />
+            <MovingAvgChart data={bayChartData} title='Bay Area Case Growth Moving Average' />
+            {/* <MovingAvgChart data={champaignChartData} title='Champaign Case Growth Moving Average' /> */}
           </div>
         </div>
       </main>

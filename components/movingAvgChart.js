@@ -5,7 +5,6 @@ const RANGE = 7 // 7 day moving average
 const MovingAvgChart = ({ data, title }) => {
   const mavgArr = ema(data.map(day => day.new), RANGE)
   const chartData = data.map((day, index) => { return { ...day, mavg: index > RANGE ? mavgArr[index] : 0 } })
-  console.log(chartData)
   return (
     <div className='chart-box'>
       <h3 className='chart-title'>{title}</h3>
@@ -13,7 +12,7 @@ const MovingAvgChart = ({ data, title }) => {
         <CartesianGrid strokeDasharray='3 3' />
 
         <XAxis dataKey='date' />
-        <YAxis dataKey='new' />
+        <YAxis dataKey='new' domain={[0, "dataMax"]} />
 
         <Bar dataKey='new' fill='#9dcbe1' dot={false} />
         <Line type='monotone' dataKey='mavg' stroke='#ff8b65' />
