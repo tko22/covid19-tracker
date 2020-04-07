@@ -93,6 +93,7 @@ const Home = () => {
                 <li>Total Tests means positive + negative tests, not including pending tests.</li>
                 <li><Link href='https://www.sccgov.org/sites/phd/DiseaseInformation/novel-coronavirus/Pages/dashboard.aspx'><a>Santa Clara Data</a></Link></li>
                 <li><Link href='https://projects.sfchronicle.com/2020/coronavirus-map/'><a>Bay Area Tracking</a></Link></li>
+                <li><Link href='http://91-divoc.com/pages/covid-visualization/'><a>Exponential Spread Viz</a></Link></li>
               </ul>
             </div>
           </Card>
