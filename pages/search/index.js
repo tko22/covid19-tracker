@@ -43,7 +43,7 @@ const SearchPage = () => {
   }
 
   const { today, hist, todayHist, info } = val !== "" ? fetchData(stateTranslations[val]) : { today: null, hist: null, todayHist: null, info: null }
-  const hospitalizedData = hist ? getHospitalizedIncr(hist).map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalizedCurrently, new: day.hospitalizedIncrease })).reverse() : []
+  const hospitalizedData = hist ? getHospitalizedIncr(hist).map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalizedCurrently, new: day.hospitalizedIncrease })).reverse().slice(10) : []
   const deathData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
   const chartData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
 
@@ -73,6 +73,7 @@ const SearchPage = () => {
               <MultiLineChart data={hospitalizedData} title={`${val} Hospitalizations`} xAxis='date' yAxis={['hospitalized', 'new']} />
               <MultiLineChart data={deathData} title={`${val} Deaths`} xAxis='date' yAxis={['deaths', 'new']} />
               <MovingAvgChart data={chartData} title={`${val} Case Growth Moving Average`} />
+              <MovingAvgChart data={hospitalizedData} title={`${val} Hospitalizations Growth Moving Average`} />
             </>}
         </div>
       </div>

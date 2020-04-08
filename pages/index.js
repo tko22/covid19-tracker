@@ -49,7 +49,7 @@ const Home = () => {
   const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("IL")
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist, info: nyInfo } = fetchData("NY")
 
-  const hospitalizedData = caliHist ? getHospitalizedIncr(caliHist).map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalizedCurrently, new: day.hospitalizedIncrease })).reverse() : []
+  const hospitalizedData = caliHist ? getHospitalizedIncr(caliHist).map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalizedCurrently, new: day.hospitalizedIncrease != undefined || day.hospitalizedIncrease != NaN ? parseInt(day.hospitalizedIncrease) : 0 })).reverse().slice(20) : []
   const deathData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
   const caliConfirmedData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
   const sccChartData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
@@ -124,6 +124,7 @@ const Home = () => {
             <MultiLineChart data={sccChartData} title='Santa Clara' xAxis='date' yAxis={['confirmed', 'new']} />
             <MovingAvgChart data={caliConfirmedData} title='California Case Growth Moving Average' />
             <MovingAvgChart data={bayChartData} title='Bay Area Case Growth Moving Average' />
+            <MovingAvgChart data={hospitalizedData} title='Hospitalizations Case Growth Moving Average' />
             {/* <MovingAvgChart data={champaignChartData} title='Champaign Case Growth Moving Average' /> */}
           </div>
         </div>
