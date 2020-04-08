@@ -6,6 +6,7 @@ import stateTranslations from './stateTranslations'
 import fetcher from './fetcher'
 import prettyJHUDate from './prettyJHUDate'
 import { ema, sma } from './math'
+import getHospitalizedIncr from './getHospitalizedIncr'
 
 export {
   prettyDate,
@@ -16,5 +17,6 @@ export {
   fetcher,
   prettyJHUDate,
   ema,
-  sma
+  sma,
+  getHospitalizedIncr
 }

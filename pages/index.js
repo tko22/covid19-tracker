@@ -9,7 +9,7 @@ import fetch from 'unfetch'
 import { ComposedChart, Bar, YAxis, XAxis, Line, Tooltip, CartesianGrid } from 'recharts'
 import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart, MultiLineChart, MovingAvgChart } from '../components'
 import { STATES, TRACKER_URL, COVID_URL } from '../utils/constants'
-import { population, stateTranslations, prettyDate, prettyJHUDate } from '../utils'
+import { population, stateTranslations, prettyDate, prettyJHUDate, getHospitalizedIncr } from '../utils'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
@@ -49,7 +49,8 @@ const Home = () => {
   const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("IL")
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist, info: nyInfo } = fetchData("NY")
 
-  const hospitalizedData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalizedCurrently, new: day.hospitalizedIncrease })).reverse() : []
+  const betterCaliHist = caliHist ? getHospitalizedIncr(caliHist) : {}
+  const hospitalizedData = caliHist ? getHospitalizedIncr(caliHist).map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalizedCurrently, new: day.hospitalizedIncrease })).reverse() : []
   const deathData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
   const caliConfirmedData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
   const sccChartData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
@@ -100,7 +101,7 @@ const Home = () => {
         </div>
         <div className='row'>
           <div className='grid'>
-            <StateStatCard state='California' today={caliToday} hist={todayCaliHist} population={population.states.california} stateInfo={caliInfo} />
+            <StateStatCard state='California' today={caliToday} hist={betterCaliHist} population={population.states.california} stateInfo={caliInfo} />
             <StateStatCard state='Illinois' today={ilToday} hist={todayILHist} population={population.states.illinois} stateInfo={ilInfo} />
             <StateStatCard state='New York' today={nyToday} hist={todayNYHist} population={population.states.new_york} stateInfo={nyInfo} />
             <HistTable state='California' data={caliHist} population={population.states.california} stateInfo={caliInfo} />

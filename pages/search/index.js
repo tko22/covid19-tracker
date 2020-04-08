@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Select from 'react-select'
 import ReactGA from 'react-ga'
 import { StateStatCard, HistTable, ConfirmedNewChart, MultiLineChart, MovingAvgChart } from '../../components'
-import { stateTranslations, population, fetcher, prettyDate, ema } from '../../utils'
+import { stateTranslations, population, fetcher, prettyDate, ema, getHospitalizedIncr } from '../../utils'
 import { STATES, TRACKER_URL, TRACKER_URL_V1 } from '../../utils/constants'
 
 const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))
@@ -43,7 +43,7 @@ const SearchPage = () => {
   }
 
   const { today, hist, todayHist, info } = val !== "" ? fetchData(stateTranslations[val]) : { today: null, hist: null, todayHist: null, info: null }
-  const hospitalizedData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalizedCurrently, new: day.hospitalizedIncrease })).reverse() : []
+  const hospitalizedData = hist ? getHospitalizedIncr(hist).map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalizedCurrently, new: day.hospitalizedIncrease })).reverse() : []
   const deathData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
   const chartData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
 
@@ -64,7 +64,7 @@ const SearchPage = () => {
             <div className='row'>
               <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />
             </div>
-            </>
+          </>
           : null}
         <div className='row'>
           {hist &&
