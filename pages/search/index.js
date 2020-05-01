@@ -28,17 +28,17 @@ const SearchPage = () => {
   const fetchData = state => {
     // if USA
     if (state === "USA") {
-      const { data: tempToday } = useSWR(`${TRACKER_URL}/us`, fetcher)
+      const { data: tempToday } = useSWR(`${TRACKER_URL}/us/current.json`, fetcher)
       const today = tempToday ? tempToday[0] : null
-      const { data: hist } = useSWR(`${TRACKER_URL}/us/daily`, fetcher)
-      const { data } = useSWR(`${TRACKER_URL}/us/daily`, fetcher) // because u need to have the same amount of hooks
+      const { data: hist } = useSWR(`${TRACKER_URL}/us/daily.json`, fetcher)
+      const { data } = useSWR(`${TRACKER_URL}/us/daily.json`, fetcher) // because u need to have the same amount of hooks
       return { today, hist, todayHist: hist ? hist[0] : {}, info: null }
     }
 
     // if state
-    const { data: hist } = useSWR(`${TRACKER_URL}/states/daily?state=${state}`, fetcher)
-    const { data: today } = useSWR(`${TRACKER_URL}/states?state=${state}`, fetcher)
-    const { data: info } = useSWR(`${TRACKER_URL}/states/info?state=${state}`, fetcher)
+    const { data: hist } = useSWR(`${TRACKER_URL}/states/${state}/daily.json`, fetcher)
+    const { data: today } = useSWR(`${TRACKER_URL}/states/${state}/current.json`, fetcher)
+    const { data: info } = useSWR(`${TRACKER_URL}/states/${state}/info.json`, fetcher)
     return { today, hist, todayHist: hist ? hist[0] : {}, info }
   }
 

@@ -32,13 +32,13 @@ const Home = () => {
   }
 
   const fetchData = state => {
-    const { data: hist } = useSWR(`${TRACKER_URL}/states/daily?state=${state}`, fetcher)
-    const { data: today } = useSWR(`${TRACKER_URL}/states?state=${state}`, fetcher)
-    const { data: info } = useSWR(`${TRACKER_URL}/states/info?state=${state}`, fetcher)
+    const { data: hist } = useSWR(`${TRACKER_URL}/states/${state}/daily.json`, fetcher)
+    const { data: today } = useSWR(`${TRACKER_URL}/states/${state}/current.json`, fetcher)
+    const { data: info } = useSWR(`${TRACKER_URL}/states/${state}/info.json`, fetcher)
     return { today, hist, todayHist: hist ? hist[0] : {}, info }
   }
-  const { data: usToday } = useSWR(`https://covidtracking.com/api/us`, fetcher)
-  const { data: usHist } = useSWR(`https://covidtracking.com/api/us/daily`, fetcher)
+  const { data: usToday } = useSWR(`${TRACKER_URL}/us/current.json`, fetcher)
+  const { data: usHist } = useSWR(`${TRACKER_URL}/us/daily.json`, fetcher)
   const usTodayHist = usHist ? usHist[0] : {}
   const { data: sccToday } = useSWR(`${COVID_URL}/counties?county=santa-clara`, fetcher)
   const { data: sccHist } = useSWR(`${COVID_URL}/daily?county=santa-clara`, fetcher)
