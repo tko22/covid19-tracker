@@ -1,4 +1,4 @@
-import { prettyDate, printStatVal } from '../utils'
+import { prettyDate, printStatVal, getHospitalizedIncr } from '../utils'
 import { StatRow } from '../components'
 import { useState } from 'react'
 import ToggleNormalize from './toggleNormalize'
@@ -76,7 +76,7 @@ const HistTable = ({ state, data, population }) => {
                             <p className='stat-incr bad'>
                               {day.hospitalizedIncrease < 0
                                 ? <>{day.hospitalizedIncrease}</>
-                                : <>+{day.hospitalizedCurrently}</>}
+                                : <>+{day.hospitalizedIncrease}</>}
                             </p>
                           </div>
                         </div>
