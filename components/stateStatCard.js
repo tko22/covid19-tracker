@@ -87,6 +87,11 @@ const StateStatCard = ({ state, today, hist, population, stateInfo = {} }) => {
           </div>
           <p className='stat-val'>{printStatVal(today.totalTestResults, population, isNormalized, NORMALIZATION_FACTOR)}</p>
         </div>
+        <div className='stat-row'>
+          <p className='stat-title'>Test Positivity: </p>
+
+          <p className='stat-val'>{printStatVal(((today.positive) * 100 / (today.totalTestResults)).toFixed(2), population, isNormalized, NORMALIZATION_FACTOR)}%</p>
+        </div>
 
         <p className='last-updated-text'>Pop. {formatNum(population)}</p>
         <p className='last-updated-text'>Last Updated: {prettyDate(today.dateModified)}</p>

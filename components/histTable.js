@@ -38,6 +38,7 @@ const HistTable = ({ state, data, population }) => {
                   <th>In ICU</th>
                   <th>Deaths</th>
                   <th>Total Test Results</th>
+                  <th>Test Positivity</th>
                 </tr>
               </thead>
               <tbody>
@@ -108,7 +109,13 @@ const HistTable = ({ state, data, population }) => {
                           </div>
                         </div>
                       </td>
+                      <td>
+                        <div className='stat-row'>
+                          <p className='stat-val'>{printStatVal(((day.positive) * 100 / (day.totalTestResults)).toFixed(2), population, isNormalized, NORMALIZATION_FACTOR)}%</p>
+                        </div>
+                      </td>
                     </tr>
+
                   ))
                 }
               </tbody>
@@ -118,7 +125,7 @@ const HistTable = ({ state, data, population }) => {
                 {isCollapse ? <img className='expand-icon' src='/collapse-down.svg' /> : <img className='expand-icon' src='/collapse-up.svg' />}
               </a>
             </div>
-            </>
+          </>
           : "No historical Data"
       }
       <style jsx>{`
