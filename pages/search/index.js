@@ -36,9 +36,9 @@ const SearchPage = () => {
     }
 
     // if state
-    const { data: hist } = useSWR(`${TRACKER_URL}/states/${state}/daily.json`, fetcher)
-    const { data: today } = useSWR(`${TRACKER_URL}/states/${state}/current.json`, fetcher)
-    const { data: info } = useSWR(`${TRACKER_URL}/states/${state}/info.json`, fetcher)
+    const { data: hist } = useSWR(`${TRACKER_URL}/states/${state.toLowerCase()}/daily.json`, fetcher)
+    const { data: today } = useSWR(`${TRACKER_URL}/states/${state.toLowerCase()}/current.json`, fetcher)
+    const { data: info } = useSWR(`${TRACKER_URL}/states/${state.toLowerCase()}/info.json`, fetcher)
     return { today, hist, todayHist: hist ? hist[0] : {}, info }
   }
 

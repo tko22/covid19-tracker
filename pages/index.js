@@ -45,9 +45,9 @@ const Home = () => {
   const { data: bayHist } = useSWR(`${COVID_URL}/daily?area=bay-area`, fetcher)
   const { data: champaignHist } = useSWR(`${COVID_URL}/daily?county=champaign`, fetcher)
 
-  const { today: caliToday, hist: caliHist, todayHist: todayCaliHist, info: caliInfo } = fetchData("CA")
-  const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("IL")
-  const { today: nyToday, hist: nyHist, todayHist: todayNYHist, info: nyInfo } = fetchData("NY")
+  const { today: caliToday, hist: caliHist, todayHist: todayCaliHist, info: caliInfo } = fetchData("ca")
+  const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("il")
+  const { today: nyToday, hist: nyHist, todayHist: todayNYHist, info: nyInfo } = fetchData("ny")
 
   const hospitalizedData = caliHist ? getHospitalizedIncr(caliHist).map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalizedCurrently, new: day.hospitalizedIncrease != undefined || day.hospitalizedIncrease != NaN ? parseInt(day.hospitalizedIncrease) : 0 })).reverse().slice(20) : []
   const deathData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
