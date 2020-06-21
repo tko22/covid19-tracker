@@ -46,6 +46,10 @@ const SearchPage = () => {
   const hospitalizedData = hist ? getHospitalizedIncr(hist).map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalizedCurrently, new: day.hospitalizedIncrease })).reverse().slice(10) : []
   const deathData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
   const chartData = hist ? hist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
+  const testPositivityData = hist ? hist.map(day => ({
+    date: prettyDate(day.dateChecked, true),
+    new: day.totalTestResultsIncrease ? (day.positiveIncrease * 100 / (day.totalTestResultsIncrease)).toFixed(2) : 0
+  })).reverse().slice(45) : []
 
   return (
     <main>
@@ -64,7 +68,7 @@ const SearchPage = () => {
             <div className='row'>
               <HistTable state={val} data={hist} population={population.states[val.toLowerCase().replace(/ /g, "_")]} />
             </div>
-            </>
+          </>
           : null}
         <div className='row'>
           {hist &&
@@ -75,6 +79,7 @@ const SearchPage = () => {
               <MovingAvgChart data={chartData} title={`${val} Case Growth Moving Average`} />
               <MovingAvgChart data={hospitalizedData} title={`${val} Hospitalizations Growth Moving Average`} />
               <MovingAvgChart data={deathData} title={`${val} Death Moving Average`} />
+              <MovingAvgChart data={testPositivityData} title={`${val} Test Positivity Moving Average`} />
             </>}
         </div>
       </div>

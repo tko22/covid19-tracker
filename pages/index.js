@@ -9,7 +9,7 @@ import fetch from 'unfetch'
 import { ComposedChart, Bar, YAxis, XAxis, Line, Tooltip, CartesianGrid } from 'recharts'
 import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart, MultiLineChart, MovingAvgChart } from '../components'
 import { STATES, TRACKER_URL, COVID_URL } from '../utils/constants'
-import { population, stateTranslations, prettyDate, prettyJHUDate, getHospitalizedIncr } from '../utils'
+import { population, stateTranslations, prettyDate, prettyJHUDate, getHospitalizedIncr, printStatVal } from '../utils'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
@@ -55,6 +55,10 @@ const Home = () => {
   const sccChartData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
   const bayChartData = bayHist ? bayHist.slice(35).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
   const champaignChartData = champaignHist ? champaignHist.slice(35).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
+  const testPositivityData = caliHist ? caliHist.map(day => ({
+    date: prettyDate(day.dateChecked, true),
+    new: day.totalTestResultsIncrease ? (day.positiveIncrease * 100 / (day.totalTestResultsIncrease)).toFixed(2) : NaN
+  })).reverse().slice(50) : []
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -118,14 +122,13 @@ const Home = () => {
           </Card>
           <div className='grid'>
 
-            <ConfirmedNewChart data={caliConfirmedData} state='California' />
-            <MultiLineChart data={hospitalizedData} title='California Hospitalizations' xAxis='date' yAxis={['hospitalized', 'new']} />
-            <MultiLineChart data={deathData} title='California Deaths' xAxis='date' yAxis={['deaths', 'new']} />
-            <MultiLineChart data={sccChartData} title='Santa Clara' xAxis='date' yAxis={['confirmed', 'new']} />
             <MovingAvgChart data={caliConfirmedData} title='California Case Growth Moving Average' />
+            <MovingAvgChart data={deathData} title='California Deaths Moving Average' xAxis='date' />
+            <MovingAvgChart data={sccChartData} title='Santa Clara Case Growth Moving Average' xAxis='date' />
             <MovingAvgChart data={bayChartData} title='Bay Area Case Growth Moving Average' />
+            <MultiLineChart data={hospitalizedData} title='California Hospitalizations' xAxis='date' yAxis={['hospitalized', 'new']} />
             <MovingAvgChart data={hospitalizedData} title='Hospitalizations Case Growth Moving Average' />
-            {/* <MovingAvgChart data={champaignChartData} title='Champaign Case Growth Moving Average' /> */}
+            <MovingAvgChart data={testPositivityData} title='California Test Positivity Moving Average' />
           </div>
         </div>
       </main>

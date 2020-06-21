@@ -12,10 +12,10 @@ const MovingAvgChart = ({ data, title }) => {
         <CartesianGrid strokeDasharray='3 3' />
 
         <XAxis dataKey='date' />
-        <YAxis dataKey='new' domain={[0, "dataMax"]} />
+        <YAxis dataKey='new' type='number' domain={[0, 'auto']} />
 
         <Bar dataKey='new' fill='#9dcbe1' dot={false} />
-        <Line type='monotone' dataKey='mavg' stroke='#ff8b65' />
+        <Line type='monotone' dataKey='mavg' stroke='#ff8b65' dot={false} />
         <Tooltip />
 
       </ComposedChart>
