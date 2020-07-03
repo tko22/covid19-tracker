@@ -44,6 +44,7 @@ const Home = () => {
   const { data: sccHist } = useSWR(`${COVID_URL}/daily?county=santa-clara`, fetcher)
   const { data: bayHist } = useSWR(`${COVID_URL}/daily?area=bay-area`, fetcher)
   const { data: champaignHist } = useSWR(`${COVID_URL}/daily?county=champaign`, fetcher)
+  const { data: sfHist } = useSWR(`https://data.sfgov.org/resource/nfpa-mg4g.json`, fetcher)
 
   const { today: caliToday, hist: caliHist, todayHist: todayCaliHist, info: caliInfo } = fetchData("ca")
   const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("il")
@@ -59,6 +60,14 @@ const Home = () => {
     date: prettyDate(day.dateChecked, true),
     new: day.totalTestResultsIncrease ? (day.positiveIncrease * 100 / (day.totalTestResultsIncrease)).toFixed(2) : NaN
   })).reverse().slice(50) : []
+  const sfData = sfHist ? sfHist.map(day => ({
+    date: prettyDate(day.specimen_collection_date),
+    new: day.pos
+  })) : []
+  const sfPosRateData = sfHist ? sfHist.map(day => ({
+    date: prettyDate(day.specimen_collection_date),
+    new: (day.pct * 100).toFixed(2)
+  })) : []
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -129,6 +138,9 @@ const Home = () => {
             <MultiLineChart data={hospitalizedData} title='California Hospitalizations' xAxis='date' yAxis={['hospitalized', 'new']} />
             <MovingAvgChart data={hospitalizedData} title='Hospitalizations Case Growth Moving Average' />
             <MovingAvgChart data={testPositivityData} title='California Test Positivity Moving Average' />
+            <MovingAvgChart data={sfData} title='SF Moving Avg by specimen collection date' />
+            <MovingAvgChart data={sfPosRateData} title='SF Test positivity Moving Avg by specimen collection date' />
+
           </div>
         </div>
       </main>
