@@ -64,7 +64,7 @@ const HistTable = ({ state, data, population }) => {
                           <div className='stat-diff'>
                             {/* <img className='stat-incr-icon' src='/chevrons-up-good.svg' /> */}
                             <p className='stat-incr good'>
-                              +{day.negativeIncrease}
+                              +{printStatVal(day.negativeIncrease, population, isNormalized, NORMALIZATION_FACTOR)}
                             </p>
                           </div>
                         </div>
@@ -82,8 +82,8 @@ const HistTable = ({ state, data, population }) => {
                             {/* <img className='stat-incr-icon' src='/chevrons-up-bad.svg' /> */}
                             <p className='stat-incr bad'>
                               {day.hospitalizedIncrease < 0
-                                ? <>{day.hospitalizedIncrease}</>
-                                : <>+{day.hospitalizedIncrease}</>}
+                                ? <>{printStatVal(day.hospitalizedIncrease, population, isNormalized, NORMALIZATION_FACTOR)}</>
+                                : <>+{printStatVal(day.hospitalizedIncrease, population, isNormalized, NORMALIZATION_FACTOR)}</>}
                             </p>
                           </div>
                         </div>
@@ -99,7 +99,7 @@ const HistTable = ({ state, data, population }) => {
                           <div className='stat-diff'>
                             {/* <img className='stat-incr-icon' src='/chevrons-up-bad.svg' /> */}
                             <p className='stat-incr bad'>
-                              +{day.deathIncrease}
+                              +{printStatVal(day.deathIncrease, population, isNormalized, NORMALIZATION_FACTOR)}
                             </p>
                           </div>
                         </div>
@@ -110,7 +110,7 @@ const HistTable = ({ state, data, population }) => {
                           <div className='stat-diff'>
                             {/* <img className='stat-incr-icon' src='/chevrons-up-good.svg' /> */}
                             <p className='stat-incr good'>
-                              +{day.totalTestResultsIncrease}
+                              +{printStatVal(day.totalTestResultsIncrease, population, isNormalized, NORMALIZATION_FACTOR)}
                             </p>
                           </div>
                         </div>
@@ -131,7 +131,7 @@ const HistTable = ({ state, data, population }) => {
                 {isCollapse ? <img className='expand-icon' src='/collapse-down.svg' /> : <img className='expand-icon' src='/collapse-up.svg' />}
               </a>
             </div>
-            </>
+          </>
           : "No historical Data"
       }
       <style jsx>{`
