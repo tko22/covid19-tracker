@@ -55,11 +55,11 @@ const StateStatCard = ({ state, today, hist, population, stateInfo = {} }) => {
               {printStatVal(hist.hospitalizedIncrease, population, isNormalized, NORMALIZATION_FACTOR)}
             </p>
           </div>
-          <p className='stat-val'>{printStatVal(printStatVal(today.hospitalizedCurrently, population, isNormalized, NORMALIZATION_FACTOR))}</p>
+          <p className='stat-val'>{printStatVal(today.hospitalizedCurrently, population, isNormalized, NORMALIZATION_FACTOR)}</p>
         </div>
         <div className='stat-row'>
           <p className='stat-title'>In ICU: </p>
-          <p className='stat-val'>{printStatVal(printStatVal(today.inIcuCurrently, population, isNormalized, NORMALIZATION_FACTOR))}</p>
+          <p className='stat-val'>{printStatVal(today.inIcuCurrently, population, isNormalized, NORMALIZATION_FACTOR)}</p>
         </div>
 
         <div className='stat-row'>
@@ -100,7 +100,7 @@ const StateStatCard = ({ state, today, hist, population, stateInfo = {} }) => {
 
         <p className='last-updated-text'>Pop. {formatNum(population)}</p>
         <p className='last-updated-text'>Last Updated: {prettyDate(today.dateModified)}</p>
-        </div>
+      </div>
       : <p>No data</p>}
     {
       !isCollapse
@@ -204,7 +204,7 @@ const StateStatCard = ({ state, today, hist, population, stateInfo = {} }) => {
 
     `}
     </style>
-          </div>
+  </div>
   )
 }
 

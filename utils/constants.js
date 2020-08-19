@@ -1,6 +1,6 @@
 const STATES = ['CA', 'IL', 'NY']
-const TRACKER_URL = 'https://covidtracking.com/api/v1'
-const TRACKER_URL_V1 = 'https://covidtracking.com/api/v1'
+const TRACKER_URL = 'https://api.covidtracking.com/v1'
+const TRACKER_URL_V1 = 'https://api.covidtracking.com/v1'
 const COVID_URL = 'https://covid-api.timothyko.org/api'
 
 export {
