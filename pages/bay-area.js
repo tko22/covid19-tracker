@@ -91,7 +91,7 @@ const BayAreaPage = () => {
           </MovingAvgChart>
           <MultiLineChart data={sccHospChartData} title='Santa Clara Hospitalization' xAxis='date' yAxis={["hospitalized", "new"]} />
         </div>
-        <div className='table row'>
+        {/* <div className='table row'>
           <Table
             title='Santa Clara History'
             className='table'
@@ -124,7 +124,7 @@ const BayAreaPage = () => {
             </tbody>
 
           </Table>
-        </div>
+        </div> */}
         <div className='row'>
           <MovingAvgChart data={sfData} title='SF Moving Avg by specimen collection date' xAxis='date'>
             {sfData.length > 2 ? <p>7 day SMA {sfData[sfData.length - 1].date}: <b>{sfData[sfData.length - 1].mavg} / 100k</b></p> : null}
