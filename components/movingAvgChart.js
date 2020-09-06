@@ -2,12 +2,15 @@ import { prettyDate, ema, sma } from '../utils'
 import { ComposedChart, Bar, YAxis, XAxis, Line, Tooltip, CartesianGrid } from 'recharts'
 
 const RANGE = 7 // 7 day moving average
-const MovingAvgChart = ({ data, title }) => {
-  const mavgArr = ema(data.map(day => day.new), RANGE)
+const MovingAvgChart = ({ data, title, noMavg, children }) => {
+  const mavgArr = sma(data.map(day => day.new), RANGE)
   const chartData = data.map((day, index) => { return { ...day, mavg: index > RANGE ? mavgArr[index] : 0 } })
   return (
     <div className='chart-box'>
       <h3 className='chart-title'>{title}</h3>
+      <div className='children-box'>
+        {children}
+      </div>
       <ComposedChart width={600} height={300} data={chartData} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
         <CartesianGrid strokeDasharray='3 3' />
 
@@ -15,7 +18,7 @@ const MovingAvgChart = ({ data, title }) => {
         <YAxis dataKey='new' type='number' domain={[0, 'auto']} />
 
         <Bar dataKey='new' fill='#9dcbe1' dot={false} />
-        <Line type='monotone' dataKey='mavg' stroke='#ff8b65' dot={false} />
+        {!noMavg ? <Line type='monotone' dataKey='mavg' stroke='#ff8b65' dot={false} /> : null}
         <Tooltip />
 
       </ComposedChart>
@@ -25,6 +28,9 @@ const MovingAvgChart = ({ data, title }) => {
         }
         .chart-title {
           padding-left: 10px;
+        }
+        .children-box {
+          margin: 12px;
         }
       `}
       </style>

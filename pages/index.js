@@ -84,6 +84,8 @@ const Home = () => {
               <link rel='preload' href={`${COVID_URL}/counties?county=santa-clara`} as='fetch' crossOrigin='anonymous' />
               <link rel='preload' href={`${COVID_URL}/daily?area=bay-area`} as='fetch' crossOrigin='anonymous' />
               <link rel='preload' href={`${COVID_URL}/counties?area=bay-area`} as='fetch' crossOrigin='anonymous' />
+              <link rel='preload' href='https://data.sfgov.org/resource/nfpa-mg4g.json' as='fetch' crossOrigin='anonymous' />
+              <link rel='preload' href='https://data.sccgov.org/resource/dvgc-tzgq.json' as='fetch' crossOrigin='anonymous' />
             </>
           ))
         }
@@ -94,6 +96,7 @@ const Home = () => {
         <h2 className='title'>Covid-19</h2>
         <div className='row'>
           <Link href='/search'><a className='page-link'>Search State</a></Link>
+          <Link href='/bay-area'><a className='page-link'>Bay Area</a></Link>
         </div>
         <div className='row'>
           <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />
@@ -137,12 +140,7 @@ const Home = () => {
             <MultiLineChart data={hospitalizedData} title='California Hospitalizations' xAxis='date' yAxis={['hospitalized', 'new']} />
             <MovingAvgChart data={hospitalizedData} title='Hospitalizations Case Growth Moving Average' />
             <MovingAvgChart data={testPositivityData} title='California Test Positivity Moving Average' />
-            <MovingAvgChart data={sccChartData} title='Santa Clara Case Growth Moving Average' xAxis='date' />
-            <MovingAvgChart data={sccPosRateData} title='Santa Clara 7 day positivity rate' xAxis='date' />
             <MovingAvgChart data={bayChartData} title='Bay Area Case Growth Moving Average' xAxis='date' />
-            <MovingAvgChart data={sfData} title='SF Moving Avg by specimen collection date' xAxis='date' />
-            <MovingAvgChart data={sfPosRateData} title='SF Test positivity Moving Avg by specimen collection date' xAxis='date' />
-
           </div>
         </div>
       </main>
@@ -162,6 +160,7 @@ const Home = () => {
         .page-link {
           color: #F497B8;
           font-size: 12px;
+          padding: 0 12px;
         }
         .sidebar {
           flex-basis: 1;

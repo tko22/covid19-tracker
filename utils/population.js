@@ -59,6 +59,10 @@ const population = {
     american_samoa: 55641,
     northern_mariana_islands: 55194,
     artinique: 376480
+  },
+  counties: {
+    santa_clara: 1927852,
+    san_francisco: 881549
   }
 }
 

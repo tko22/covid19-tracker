@@ -62,5 +62,29 @@ a {
     }
 }
 
+.table {
+    font-size: 13px;
+    border-color: grey;
+    
+    table-layout:fixed;
+    overflow-x:auto !important;
+}
 
+.table thead {
+    text-transform: uppercase;
+    border: 1px solid #eaeaea;
+}
+
+.table th {
+    padding: 0.6em;
+    font-weight: 500;
+    font-size: 12px;
+    color: #878787;
+}
+
+.table td {
+    padding: 0.6rem;
+    max-width:100%;
+    white-space:nowrap;
+}
 
