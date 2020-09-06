@@ -41,7 +41,7 @@ const Home = () => {
   const { data: usHist } = useSWR(`${TRACKER_URL}/us/daily.json`, fetcher)
   const usTodayHist = usHist ? usHist[0] : {}
   const { data: sccToday } = useSWR(`${COVID_URL}/counties?county=santa-clara`, fetcher)
-  const { data: sccHist } = useSWR(`${COVID_URL}/daily?county=santa-clara`, fetcher)
+  const { data: sccHist } = useSWR(`https://data.sccgov.org/resource/dvgc-tzgq.json`, fetcher)
   const { data: bayHist } = useSWR(`${COVID_URL}/daily?area=bay-area`, fetcher)
   const { data: champaignHist } = useSWR(`${COVID_URL}/daily?county=champaign`, fetcher)
   const { data: sfHist } = useSWR(`https://data.sfgov.org/resource/nfpa-mg4g.json`, fetcher)
@@ -53,18 +53,19 @@ const Home = () => {
   const hospitalizedData = caliHist ? getHospitalizedIncr(caliHist).map(day => ({ date: prettyDate(day.dateChecked, true), hospitalized: day.hospitalizedCurrently, new: day.hospitalizedIncrease != undefined || day.hospitalizedIncrease != NaN ? parseInt(day.hospitalizedIncrease) : 0 })).reverse().slice(20) : []
   const deathData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), deaths: day.death, new: day.deathIncrease })).reverse() : []
   const caliConfirmedData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
-  const sccChartData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
+  const sccChartData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyJHUDate(day.collection_date), new: day.post_rslt ? parseInt(day.post_rslt) : 0 })) : []
+  const sccPosRateData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyJHUDate(day.collection_date), new: day.rate_pst_7d ? parseInt(day.rate_pst_7d) : 0 })) : []
   const bayChartData = bayHist ? bayHist.slice(35).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
   const champaignChartData = champaignHist ? champaignHist.slice(35).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
   const testPositivityData = caliHist ? caliHist.map(day => ({
     date: prettyDate(day.dateChecked, true),
     new: day.totalTestResultsIncrease ? (day.positiveIncrease * 100 / (day.totalTestResultsIncrease)).toFixed(2) : NaN
   })).reverse().slice(50) : []
-  const sfData = sfHist ? sfHist.map(day => ({
+  const sfData = sfHist ? sfHist.slice(40).map(day => ({
     date: prettyDate(day.specimen_collection_date),
     new: day.pos
   })) : []
-  const sfPosRateData = sfHist ? sfHist.map(day => ({
+  const sfPosRateData = sfHist ? sfHist.slice(40).map(day => ({
     date: prettyDate(day.specimen_collection_date),
     new: (day.pct * 100).toFixed(2)
   })) : []
@@ -133,13 +134,14 @@ const Home = () => {
 
             <MovingAvgChart data={caliConfirmedData} title='California Case Growth Moving Average' />
             <MovingAvgChart data={deathData} title='California Deaths Moving Average' xAxis='date' />
-            <MovingAvgChart data={sccChartData} title='Santa Clara Case Growth Moving Average' xAxis='date' />
-            <MovingAvgChart data={bayChartData} title='Bay Area Case Growth Moving Average' />
             <MultiLineChart data={hospitalizedData} title='California Hospitalizations' xAxis='date' yAxis={['hospitalized', 'new']} />
             <MovingAvgChart data={hospitalizedData} title='Hospitalizations Case Growth Moving Average' />
             <MovingAvgChart data={testPositivityData} title='California Test Positivity Moving Average' />
-            <MovingAvgChart data={sfData} title='SF Moving Avg by specimen collection date' />
-            <MovingAvgChart data={sfPosRateData} title='SF Test positivity Moving Avg by specimen collection date' />
+            <MovingAvgChart data={sccChartData} title='Santa Clara Case Growth Moving Average' xAxis='date' />
+            <MovingAvgChart data={sccPosRateData} title='Santa Clara 7 day positivity rate' xAxis='date' />
+            <MovingAvgChart data={bayChartData} title='Bay Area Case Growth Moving Average' xAxis='date' />
+            <MovingAvgChart data={sfData} title='SF Moving Avg by specimen collection date' xAxis='date' />
+            <MovingAvgChart data={sfPosRateData} title='SF Test positivity Moving Avg by specimen collection date' xAxis='date' />
 
           </div>
         </div>
