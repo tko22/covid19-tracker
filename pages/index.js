@@ -96,7 +96,7 @@ const Home = () => {
         <h2 className='title'>Covid-19</h2>
         <div className='row'>
           <Link href='/search'><a className='page-link'>Search State</a></Link>
-          <Link href='/bay-area'><a className='page-link'>Bay Area</a></Link>
+          <Link href='/bayarea'><a className='page-link'>Bay Area</a></Link>
         </div>
         <div className='row'>
           <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />

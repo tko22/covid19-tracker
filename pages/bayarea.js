@@ -42,8 +42,8 @@ const BayAreaPage = () => {
     sevenPositivityRate: day.rate_pst_7d ? day.rate_pst_7d : 0
   })) : []
   const sccChartSMA = sccChartDataTemp ? sma(sccChartDataTemp.map(day => day.new), RANGE) : []
-  const sccChartData = sccChartDataTemp.map((day, index) => { return { ...day, mavg: index > RANGE ? sccChartSMA[index] : 0 } })
-  const sccHospChartData = sccHospHist.map(day => ({ date: prettyDate(day.collection_date), hospitalized: parseInt(day.covid_total), new: parseInt(day.covid_new) }))
+  const sccChartData = sccChartDataTemp ? sccChartDataTemp.map((day, index) => { return { ...day, mavg: index > RANGE ? sccChartSMA[index] : 0 } }) : []
+  const sccHospChartData = sccHospHist ? sccHospHist.map(day => ({ date: prettyDate(day.collection_date), hospitalized: parseInt(day.covid_total), new: parseInt(day.covid_new) })) : []
 
   const sccPosRateData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyDate(day.collection_date), new: day.rate_pst_7d ? day.rate_pst_7d : 0 })) : []
   const bayChartData = bayHist ? bayHist.slice(60).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
@@ -53,14 +53,14 @@ const BayAreaPage = () => {
     new: day.pos
   })) : []
   const sfSMA = sfDataTemp ? sma(sfDataTemp.map(day => day.new), RANGE) : []
-  const sfData = sfDataTemp.map((day, index) => { return { ...day, mavg: index > RANGE ? sfSMA[index] : 0 } })
+  const sfData = sfDataTemp ? sfDataTemp.map((day, index) => { return { ...day, mavg: index > RANGE ? sfSMA[index] : 0 } }) : []
 
   const sfPosRateData = sfHist ? sfHist.slice(35).map(day => ({
     date: prettyDate(day.specimen_collection_date),
     new: (day.pct * 100).toFixed(2)
   })) : []
 
-  let sccChartTableData = [...sccChartData].slice(30)
+  let sccChartTableData = [...sccChartData]
   sccChartTableData.reverse()
 
   if (sccChartTableData && isCollapse) {
