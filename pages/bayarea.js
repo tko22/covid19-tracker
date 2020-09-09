@@ -84,7 +84,14 @@ const BayAreaPage = () => {
         </div>
         <div className='row'>
           <MovingAvgChart data={sccChartData} title='Santa Clara Case Growth Moving Average' xAxis='date'>
-            <p>{sccChartData.length > 2 ? <p>7 day SMA {sccChartData[sccChartData.length - 1].date}: <b>{sccChartData[sccChartData.length - 1].mavg} / 100k</b></p> : null}</p>
+            <p>{sccChartData.length > 2 ? 
+              <p>7 day SMA {sccChartData[sccChartData.length - 1].date}: 
+                <b>
+                    {printStatVal(sccChartData[sccChartData.length - 1].mavg, population.counties.santa_clara, true, NORMALIZATION_FACTOR)} / 100k
+                </b>
+              </p> 
+              : null}
+           </p>
           </MovingAvgChart>
           <MovingAvgChart data={sccPosRateData} title='Santa Clara 7 day rolling positivity rate' xAxis='date' noMavg>
             {sccPosRateData.length > 2 ? <p>7 day positivity Rate from {sccPosRateData[sccPosRateData.length - 8].date}: <b>{sccPosRateData[sccPosRateData.length - 8].new}%</b></p> : null}
@@ -127,7 +134,8 @@ const BayAreaPage = () => {
         </div> */}
         <div className='row'>
           <MovingAvgChart data={sfData} title='SF Moving Avg by specimen collection date' xAxis='date'>
-            {sfData.length > 2 ? <p>7 day SMA {sfData[sfData.length - 1].date}: <b>{sfData[sfData.length - 1].mavg} / 100k</b></p> : null}
+            {sfData.length > 2 ? <p>7 day SMA {sfData[sfData.length - 1].date}: <b>{
+              printStatVal(sfData[sfData.length - 1].mavg, population.counties.san_francisco, true, NORMALIZATION_FACTOR)} / 100k</b></p> : null}
           </MovingAvgChart>
           <MovingAvgChart data={sfPosRateData} title='SF Test positivity Moving Avg by specimen collection date' xAxis='date'>
             {sfData.length > 2 ? <p>7 day positivity Rate from {sfPosRateData[sfPosRateData.length - 1].date}: <b>{sfPosRateData[sfPosRateData.length - 1].new}%</b></p> : null}
