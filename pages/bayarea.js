@@ -139,7 +139,7 @@ const BayAreaPage = () => {
               printStatVal(sfData[sfData.length - 1].mavg, population.counties.san_francisco, true, NORMALIZATION_FACTOR)} / 100k</b></p> : null}
           </MovingAvgChart>
           <MovingAvgChart data={sfPosRateData} title='SF Test positivity Moving Avg by specimen collection date' xAxis='date'>
-            {sfData.length > 2 ? <p>7 day positivity Rate from {sfPosRateData[sfPosRateData.length - 1].date}: <b>{sfChartPosSMA[sfChartPosSMA.length - 1]}%</b></p> : null}
+            {sfData.length > 2 ? <p>7 day positivity Rate from {sfPosRateData[sfPosRateData.length - 1].date}: <b>{(sfChartPosSMA[sfChartPosSMA.length - 1]*100).toFixed(2)}%</b></p> : null}
           </MovingAvgChart>
         </div>
       </div>
