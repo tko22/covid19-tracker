@@ -45,7 +45,7 @@ const BayAreaPage = () => {
   const sccChartData = sccChartDataTemp ? sccChartDataTemp.map((day, index) => { return { ...day, mavg: index > RANGE ? sccChartSMA[index] : 0 } }) : []
   const sccHospChartData = sccHospHist ? sccHospHist.map(day => ({ date: prettyDate(day.collection_date), hospitalized: parseInt(day.covid_total), new: parseInt(day.covid_new) })) : []
 
-  const sccPosRateData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyDate(day.collection_date), new: day.rate_pst_7d ? day.rate_pst_7d : 0 })) : []
+  const sccPosRateData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyDate(day.collection_date), new: day.rate_pst_7d * 100 ? day.rate_pst_7d * 100 : 0 })) : []
   const bayChartData = bayHist ? bayHist.slice(60).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
 
   const sfDataTemp = sfHist ? sfHist.slice(35).map(day => ({
@@ -139,7 +139,7 @@ const BayAreaPage = () => {
               printStatVal(sfData[sfData.length - 1].mavg, population.counties.san_francisco, true, NORMALIZATION_FACTOR)} / 100k</b></p> : null}
           </MovingAvgChart>
           <MovingAvgChart data={sfPosRateData} title='SF Test positivity Moving Avg by specimen collection date' xAxis='date'>
-            {sfData.length > 2 ? <p>7 day positivity Rate from {sfPosRateData[sfPosRateData.length - 1].date}: <b>{(sfChartPosSMA[sfChartPosSMA.length - 1]*100).toFixed(2)}%</b></p> : null}
+            {sfData.length > 2 ? <p>7 day positivity Rate from {sfPosRateData[sfPosRateData.length - 1].date}: <b>{(sfPosRateData[sfPosRateData.length - 1])}%</b></p> : null}
           </MovingAvgChart>
         </div>
       </div>
