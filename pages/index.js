@@ -55,7 +55,7 @@ const Home = () => {
   const caliConfirmedData = caliHist ? caliHist.map(day => ({ date: prettyDate(day.dateChecked, true), confirmed: day.positive, new: day.positiveIncrease })).reverse() : []
   const sccChartData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyDate(day.collection_date), new: day.post_rslt ? parseInt(day.post_rslt) : 0 })) : []
   const sccPosRateData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyDate(day.collection_date), new: day.rate_pst_7d ? day.rate_pst_7d : 0 })) : []
-  const bayChartData = bayHist ? bayHist.slice(35).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
+  const bayChartData = bayHist ? bayHist.slice(60).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
   const champaignChartData = champaignHist ? champaignHist.slice(35).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
   const testPositivityData = caliHist ? caliHist.map(day => ({
     date: prettyDate(day.dateChecked, true),

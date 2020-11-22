@@ -48,18 +48,20 @@ const BayAreaPage = () => {
   const sccPosRateData = sccHist ? sccHist.slice(40).map(day => ({ date: prettyDate(day.collection_date), new: day.rate_pst_7d * 100 ? day.rate_pst_7d * 100 : 0 })) : []
   const bayChartData = bayHist ? bayHist.slice(60).map(day => ({ date: prettyJHUDate(day.date), confirmed: day.positive !== undefined ? parseInt(day.positive) : 0, new: day.positiveIncrease ? parseInt(day.positiveIncrease) : 0 })) : []
 
-  const sfDataTemp = sfHist ? sfHist.slice(35).map(day => ({
+  const sfDataTemp = sfHist ? sfHist.slice(50).map(day => ({
     date: prettyDate(day.specimen_collection_date),
-    new: day.pos
+    new: parseFloat(day.pos)
   })) : []
   const sfSMA = sfDataTemp ? sma(sfDataTemp.map(day => day.new), RANGE) : []
   const sfData = sfDataTemp ? sfDataTemp.map((day, index) => { return { ...day, mavg: index > RANGE ? sfSMA[index] : 0 } }) : []
 
-  const sfChartPosSMA = sfHist ? sma(sfHist.slice(35).map(day => day.pct), RANGE) : []
-  const sfPosRateData = sfHist ? sfHist.slice(35).map(day => ({
+  const sfChartPosSMA = sfHist ? sma(sfHist.slice(40).map(day => day.pct), RANGE) : []
+  const sfPosRateData = sfHist ? sfHist.slice(40).map(day => ({
     date: prettyDate(day.specimen_collection_date),
     new: (day.pct * 100).toFixed(2)
   })) : []
+
+  console.log(sfData)
 
   let sccChartTableData = [...sccChartData]
   sccChartTableData.reverse()
@@ -134,11 +136,11 @@ const BayAreaPage = () => {
           </Table>
         </div> */}
         <div className='row'>
-          <MovingAvgChart data={sfData} title='SF Moving Avg by specimen collection date' xAxis='date'>
+          <MovingAvgChart data={sfData} title='SF Moving Avg by specimen collection date' height={1000} domainTop='300'>
             {sfData.length > 2 ? <p>7 day SMA {sfData[sfData.length - 1].date}: <b>{
               printStatVal(sfData[sfData.length - 1].mavg, population.counties.san_francisco, true, NORMALIZATION_FACTOR)
             } / 100k
-            </b>
+                                                                                </b>
             </p> : null}
           </MovingAvgChart>
           <MovingAvgChart data={sfPosRateData} title='SF Test positivity Moving Avg by specimen collection date' xAxis='date'>
