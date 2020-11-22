@@ -136,7 +136,7 @@ const BayAreaPage = () => {
           </Table>
         </div> */}
         <div className='row'>
-          <MovingAvgChart data={sfData} title='SF Moving Avg by specimen collection date' height={1000} domainTop='300'>
+          <MovingAvgChart data={sfData} title='SF Moving Avg by specimen collection date' domainTop='300'>
             {sfData.length > 2 ? <p>7 day SMA {sfData[sfData.length - 1].date}: <b>{
               printStatVal(sfData[sfData.length - 1].mavg, population.counties.san_francisco, true, NORMALIZATION_FACTOR)
             } / 100k
