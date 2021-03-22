@@ -34,7 +34,6 @@ const HistTable = ({ state, data, population }) => {
                   <th>Positive</th>
                   <th>Negative</th>
                   <th>Test Pos. %</th>
-                  <th>Pending Tests</th>
                   <th>Hospitalized</th>
                   <th>In ICU</th>
                   <th>Deaths</th>
@@ -74,7 +73,6 @@ const HistTable = ({ state, data, population }) => {
                           <p className='stat-val'>{printStatVal(((day.positiveIncrease) * 100 / (day.totalTestResultsIncrease)).toFixed(2))}%</p>
                         </div>
                       </td>
-                      <td>{printStatVal(day.pending, population, isNormalized, NORMALIZATION_FACTOR)}</td>
                       <td>
                         <div className='stat-row'>
                           <p className='stat-val'>{printStatVal(day.hospitalizedCurrently, population, isNormalized, NORMALIZATION_FACTOR)}</p>

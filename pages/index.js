@@ -14,6 +14,8 @@ import { population, stateTranslations, prettyDate, prettyJHUDate, getHospitaliz
 const fetcher = url => fetch(url).then(r => r.json())
 
 const options = Object.keys(stateTranslations).map(key => ({ value: stateTranslations[key], label: key }))
+const SF_POP_OVA_16 = 764514
+const SCC_POP_OVA_16 = 1511435
 
 const Home = () => {
   const [val, updateState] = useState("Washington")
@@ -46,6 +48,9 @@ const Home = () => {
   const { data: champaignHist } = useSWR(`${COVID_URL}/daily?county=champaign`, fetcher)
   const { data: sfHist } = useSWR(`https://data.sfgov.org/resource/nfpa-mg4g.json`, fetcher)
 
+  const { data: sfVaccine } = useSWR(`https://data.sfgov.org/resource/bqge-2y7k.json`, fetcher)
+  const { data: sccVaccine } = useSWR(`https://data.sccgov.org/resource/s4w2-n2ht.json`, fetcher)
+
   const { today: caliToday, hist: caliHist, todayHist: todayCaliHist, info: caliInfo } = fetchData("ca")
   const { today: ilToday, hist: ilHist, todayHist: todayILHist, info: ilInfo } = fetchData("il")
   const { today: nyToday, hist: nyHist, todayHist: todayNYHist, info: nyInfo } = fetchData("ny")
@@ -69,6 +74,9 @@ const Home = () => {
     date: prettyDate(day.specimen_collection_date),
     new: (day.pct * 100).toFixed(2)
   })) : []
+
+  const latestSfVaccine = sfVaccine && sfVaccine[sfVaccine.length - 1]
+  const latestSccVaccine = sccVaccine && sccVaccine[sccVaccine.length - 1]
 
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -100,7 +108,58 @@ const Home = () => {
         </div>
         <div className='row'>
           <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />
-          {sccToday ? <StatCard title='Santa Clara' data={{}} positive={sccToday.Confirmed} death={sccToday.Deaths} /> : null}
+          <Card>
+            <h3>Vaccine</h3>
+            <div className='stat-row'>
+              <p className='stat-title'># SF first dose:</p>
+              <div className='stat-diff'>
+                <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
+                <p className='stat-incr good'>
+                  {printStatVal(parseInt(latestSfVaccine?.new_1st_doses) + parseInt(latestSfVaccine?.new_single_doses))}
+                </p>
+              </div>
+              <div className='stat-val'>
+                {latestSfVaccine && printStatVal(parseInt(latestSfVaccine?.cumulative_1st_doses) + parseInt(latestSfVaccine?.cumulative_single_doses))}
+              </div>
+            </div>
+            <div className='stat-row'>
+              <p className='stat-title'>% over 16 first dose:</p>
+              <div className='stat-diff'>
+                <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
+                <p className='stat-incr good'>
+                  {printStatVal(((parseInt(latestSfVaccine?.new_1st_doses) + parseInt(latestSfVaccine?.new_single_doses)) / SF_POP_OVA_16 * 100).toFixed(2))}%
+                </p>
+              </div>
+              <div className='stat-val'>
+                {latestSfVaccine && ((parseInt(latestSfVaccine?.cumulative_1st_doses) + parseInt(latestSfVaccine?.cumulative_single_doses)) / SF_POP_OVA_16 * 100).toFixed(2)}%
+              </div>
+            </div>
+            <div className='stat-row'>
+              <p className='stat-title'># SCC first dose:</p>
+              <div className='stat-diff'>
+                <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
+                <p className='stat-incr good'>
+                  {printStatVal(parseInt(latestSccVaccine?.firstdose))}
+                </p>
+              </div>
+              <div className='stat-val'>
+                {latestSccVaccine && printStatVal(parseInt(latestSccVaccine?.cumulative_1stdose))}
+              </div>
+            </div>
+            <div className='stat-row'>
+              <p className='stat-title'>% over 16 first dose:</p>
+              <div className='stat-diff'>
+                <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
+                <p className='stat-incr good'>
+                  {printStatVal((parseInt(latestSccVaccine?.firstdose) / SCC_POP_OVA_16 * 100).toFixed(2))}%
+                </p>
+              </div>
+              <div className='stat-val'>
+                {latestSccVaccine && ((parseInt(latestSccVaccine?.cumulative_1stdose)) / SCC_POP_OVA_16 * 100).toFixed(2)}%
+              </div>
+            </div>
+
+          </Card>
           <Card>
             <h3>Notes</h3>
             <div className='stat-row'>
@@ -206,9 +265,40 @@ const Home = () => {
             DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
         }
         
-        footer a{
+        footer a {
           color: #0070f3;
         }
+
+        .stat-val {
+          color: #545454;
+          margin-left: auto;
+          flex-basis: 45px;
+          text-align: right;
+          font-size: 0.9rem;
+        }
+
+        .stat-diff {
+          align-self: center;
+          flex: 10%;
+          padding-right: 7px;
+          
+          display: flex;
+          display:-webkit-flex
+          -webkit-box-pack: justify;
+          justify-content: flex-end;
+        }
+  
+        .stat-diff p {
+          font-size: 9px !important;
+          text-align: right;
+        }
+  
+        .stat-incr-icon {
+          width: 10px;
+          height: 10px;
+          margin-left: auto;
+        }
+  
       `}
       </style>
 
