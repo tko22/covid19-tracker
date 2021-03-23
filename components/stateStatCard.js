@@ -36,17 +36,6 @@ const StateStatCard = ({ state, today, hist, population, stateInfo = {} }) => {
           <p className='stat-val'>{printStatVal(today.positive, population, isNormalized, NORMALIZATION_FACTOR)}</p>
         </div>
         <div className='stat-row'>
-          <p className='stat-title'>Negative: </p>
-
-          <div className='stat-diff'>
-            <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
-            <p className='stat-incr good'>
-              {printStatVal(hist.negativeIncrease, population, isNormalized, NORMALIZATION_FACTOR)}
-            </p>
-          </div>
-          <p className='stat-val'>{printStatVal(today.negative, population, isNormalized, NORMALIZATION_FACTOR)}</p>
-        </div>
-        <div className='stat-row'>
           <p className='stat-title'>Hospitalized: </p>
 
           <div className='stat-diff'>
@@ -71,10 +60,6 @@ const StateStatCard = ({ state, today, hist, population, stateInfo = {} }) => {
             </p>
           </div>
           <p className='stat-val'>{printStatVal(today.death, population, isNormalized, NORMALIZATION_FACTOR)}</p>
-        </div>
-        <div className='stat-row'>
-          <p className='stat-title'>Pending Tests: </p>
-          <p className='stat-val'>{printStatVal(today.pending, population, isNormalized, NORMALIZATION_FACTOR)}</p>
         </div>
         <div className='stat-row'>
           <p className='stat-title'>Total Tests: </p>

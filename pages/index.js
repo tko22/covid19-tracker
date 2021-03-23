@@ -10,6 +10,8 @@ import { ComposedChart, Bar, YAxis, XAxis, Line, Tooltip, CartesianGrid } from '
 import { StateStatCard, HistTable, ToggleNormalize, Card, StatCard, ConfirmedNewChart, MultiLineChart, MovingAvgChart } from '../components'
 import { STATES, TRACKER_URL, COVID_URL } from '../utils/constants'
 import { population, stateTranslations, prettyDate, prettyJHUDate, getHospitalizedIncr, printStatVal } from '../utils'
+import toast, { Toaster } from 'react-hot-toast'
+import { duration } from 'moment'
 
 const fetcher = url => fetch(url).then(r => r.json())
 
@@ -27,7 +29,8 @@ const Home = () => {
     }
     ReactGA.set({ page: window.location.pathname })
     ReactGA.pageview(window.location.pathname)
-  })
+    toast("Notice: Covid tracking project has ended their data collection since Mar 7 2021. So our data is only up to there, besides bay area and vaccine pages. ", { duration: 30000 })
+  }, [])
 
   const changeVal = (e) => {
     updateState(e.label)
@@ -94,6 +97,9 @@ const Home = () => {
               <link rel='preload' href={`${COVID_URL}/counties?area=bay-area`} as='fetch' crossOrigin='anonymous' />
               <link rel='preload' href='https://data.sfgov.org/resource/nfpa-mg4g.json' as='fetch' crossOrigin='anonymous' />
               <link rel='preload' href='https://data.sccgov.org/resource/dvgc-tzgq.json' as='fetch' crossOrigin='anonymous' />
+              <link rel='preload' href='https://data.sfgov.org/resource/bqge-2y7k.json' as='fetch' crossOrigin='anonymous' />
+              <link rel='preload' href='https://data.sccgov.org/resource/s4w2-n2ht.json' as='fetch' crossOrigin='anonymous' />
+
             </>
           ))
         }
@@ -101,17 +107,19 @@ const Home = () => {
       </Head>
 
       <main>
+        <Toaster position='top-right' />
         <h2 className='title'>Covid-19</h2>
         <div className='row'>
           <Link href='/search'><a className='page-link'>Search State</a></Link>
           <Link href='/bayarea'><a className='page-link'>Bay Area</a></Link>
+          <Link href='/vaccine'><a className='page-link'>Vaccine</a></Link>
         </div>
         <div className='row'>
           <StatCard title='United States 🇺🇸' data={usToday ? usToday[0] : {}} />
           <Card>
-            <h3>Vaccine</h3>
+            <h3>Vaccine First Dose</h3>
             <div className='stat-row'>
-              <p className='stat-title'># SF first dose:</p>
+              <p className='stat-title'>SF:</p>
               <div className='stat-diff'>
                 <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
                 <p className='stat-incr good'>
@@ -123,7 +131,7 @@ const Home = () => {
               </div>
             </div>
             <div className='stat-row'>
-              <p className='stat-title'>% over 16 first dose:</p>
+              <p className='stat-title'>SF % over 16:</p>
               <div className='stat-diff'>
                 <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
                 <p className='stat-incr good'>
@@ -135,7 +143,7 @@ const Home = () => {
               </div>
             </div>
             <div className='stat-row'>
-              <p className='stat-title'># SCC first dose:</p>
+              <p className='stat-title'>SCC:</p>
               <div className='stat-diff'>
                 <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
                 <p className='stat-incr good'>
@@ -147,7 +155,7 @@ const Home = () => {
               </div>
             </div>
             <div className='stat-row'>
-              <p className='stat-title'>% over 16 first dose:</p>
+              <p className='stat-title'>SCC % over 16:</p>
               <div className='stat-diff'>
                 <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
                 <p className='stat-incr good'>
@@ -164,11 +172,9 @@ const Home = () => {
             <h3>Notes</h3>
             <div className='stat-row'>
               <ul className='note-list'>
-                <li>Increase in 0 may mean it was not reported.</li>
-                <li>Pending Tests means # of tests waiting for results.</li>
                 <li>Total Tests means positive + negative tests, not including pending tests.</li>
-                <li><Link href='https://www.sccgov.org/sites/phd/DiseaseInformation/novel-coronavirus/Pages/dashboard.aspx'><a>Santa Clara Data</a></Link></li>
-                <li><Link href='https://projects.sfchronicle.com/2020/coronavirus-map/'><a>Bay Area Tracking</a></Link></li>
+                <li><Link href='https://data.sfgov.org/stories/s/COVID-19-Vaccinations/a49y-jeyc'>SF Vaccine</Link></li>
+                <li><Link href='https://www.sccgov.org/sites/covid19/Pages/dashboard-vaccine-CAIR2.aspx'>SCC Vaccine</Link></li>
                 <li><Link href='http://91-divoc.com/pages/covid-visualization/'><a>Exponential Spread Viz</a></Link></li>
               </ul>
             </div>
