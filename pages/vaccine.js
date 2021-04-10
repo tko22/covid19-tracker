@@ -71,6 +71,30 @@ const VaccinePage = () => {
                 {latestSfVaccine && ((parseInt(latestSfVaccine?.cumulative_1st_doses) + parseInt(latestSfVaccine?.cumulative_single_doses)) / SF_POP_OVA_16 * 100).toFixed(2)}%
               </div>
             </div>
+            <div className='stat-row'>
+              <p className='stat-title'>full vac:</p>
+              <div className='stat-diff'>
+                <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
+                <p className='stat-incr good'>
+                  {latestSfVaccine && printStatVal(parseInt(latestSfVaccine?.new_series_completed))}
+                </p>
+              </div>
+              <div className='stat-val'>
+                {latestSfVaccine && printStatVal(parseInt(latestSfVaccine?.cumulative_series_completed))}
+              </div>
+            </div>
+            <div className='stat-row'>
+              <p className='stat-title'>% full vac:</p>
+              <div className='stat-diff'>
+                <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
+                <p className='stat-incr good'>
+                  {latestSfVaccine && printStatVal((parseInt(latestSfVaccine?.new_series_completed) / SF_POP_OVA_16 * 100).toFixed(2))}
+                </p>
+              </div>
+              <div className='stat-val'>
+                {latestSfVaccine && printStatVal((parseInt(latestSfVaccine?.cumulative_series_completed) / SF_POP_OVA_16 * 100).toFixed(2))}
+              </div>
+            </div>
           </Card>
           <Card>
             <h3>Santa Clara</h3>
