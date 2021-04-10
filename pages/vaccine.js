@@ -88,11 +88,11 @@ const VaccinePage = () => {
               <div className='stat-diff'>
                 <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
                 <p className='stat-incr good'>
-                  {latestSfVaccine && printStatVal((parseInt(latestSfVaccine?.new_series_completed) / SF_POP_OVA_16 * 100).toFixed(2))}
+                  {latestSfVaccine && printStatVal((parseInt(latestSfVaccine?.new_series_completed) / SF_POP_OVA_16 * 100).toFixed(2))}%
                 </p>
               </div>
               <div className='stat-val'>
-                {latestSfVaccine && printStatVal((parseInt(latestSfVaccine?.cumulative_series_completed) / SF_POP_OVA_16 * 100).toFixed(2))}
+                {latestSfVaccine && printStatVal((parseInt(latestSfVaccine?.cumulative_series_completed) / SF_POP_OVA_16 * 100).toFixed(2))}%
               </div>
             </div>
           </Card>
@@ -120,6 +120,30 @@ const VaccinePage = () => {
               </div>
               <div className='stat-val'>
                 {latestSccVaccine && ((parseInt(latestSccVaccine?.cumulative_1stdose)) / SCC_POP_OVA_16 * 100).toFixed(2)}%
+              </div>
+            </div>
+            <div className='stat-row'>
+              <p className='stat-title'>full vac:</p>
+              <div className='stat-diff'>
+                <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
+                <p className='stat-incr good'>
+                  {printStatVal(parseInt(latestSccVaccine?.seconddose) + parseInt(latestSccVaccine?.singledose))}
+                </p>
+              </div>
+              <div className='stat-val'>
+                {latestSccVaccine && printStatVal(parseInt(latestSccVaccine?.cumulative_2nddose) + parseInt(latestSccVaccine?.cumulative_singledose))}
+              </div>
+            </div>
+            <div className='stat-row'>
+              <p className='stat-title'>% full vac:</p>
+              <div className='stat-diff'>
+                <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
+                <p className='stat-incr good'>
+                  {printStatVal((parseInt(latestSccVaccine?.seconddose) + parseInt(latestSccVaccine?.singledose) / SCC_POP_OVA_16 * 100).toFixed(2))}%
+                </p>
+              </div>
+              <div className='stat-val'>
+                {latestSccVaccine && ((parseInt(latestSccVaccine?.cumulative_2nddose) + parseInt(latestSccVaccine?.cumulative_singledose)) / SCC_POP_OVA_16 * 100).toFixed(2)}%
               </div>
             </div>
           </Card>
