@@ -139,7 +139,7 @@ const VaccinePage = () => {
               <div className='stat-diff'>
                 <img className='stat-incr-icon' src='/chevrons-up-good.svg' />
                 <p className='stat-incr good'>
-                  {printStatVal((parseInt(latestSccVaccine?.seconddose) + parseInt(latestSccVaccine?.singledose) / SCC_POP_OVA_16 * 100).toFixed(2))}%
+                  {((parseInt(latestSccVaccine?.seconddose) + parseInt(latestSccVaccine?.singledose)) / SCC_POP_OVA_16 * 100).toFixed(2)}%
                 </p>
               </div>
               <div className='stat-val'>
